@@ -7,7 +7,7 @@ namespace Options
 
     extern bool g_bMainWindowOpen;
 
-	// Aim
+	// AimAssist
 	extern bool g_bAimAssistEnabled;
 	extern bool g_bAimAssistFriendlyFire;
 	extern bool g_bAimAssistIgnoreObstacles;

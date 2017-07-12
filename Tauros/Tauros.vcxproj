@@ -186,7 +186,7 @@
     <ClInclude Include="DrawManager.hpp" />
     <ClInclude Include="EventListener.hpp" />
     <ClInclude Include="GUI.hpp" />
-    <ClInclude Include="Hacks\Aim.hpp" />
+    <ClInclude Include="Hacks\AimAssist.hpp" />
     <ClInclude Include="Hacks\AutoAccept.hpp" />
     <ClInclude Include="Hacks\Bhop.hpp" />
     <ClInclude Include="Hacks\Chams.hpp" />

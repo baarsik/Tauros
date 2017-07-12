@@ -12,7 +12,7 @@
 
 #include "GUI.hpp"
 
-#include "Hacks/Aim.hpp"
+#include "Hacks/AimAssist.hpp"
 #include "Hacks/AutoAccept.hpp"
 #include "Hacks/Bhop.hpp"
 #include "Hacks/Chams.hpp"
@@ -234,7 +234,7 @@ namespace Hooks
 		Bhop::CreateMove_Post(pLocal, pCmd);
 		bRet &= RCS::CreateMove_Post(pLocal, pCmd);
 		Trigger::CreateMove_Post(pLocal, pCmd);
-		Aim::CreateMove_Post(pLocal, pCmd);
+		AimAssist::CreateMove_Post(pLocal, pCmd);
 
 		g_fnSetClanTag("Cerberus", "Cerberus");
 
@@ -280,7 +280,7 @@ namespace Hooks
 	{
 		g_fnOriginalOverrideMouseInput(se::Interfaces::ClientMode(), x, y);
 
-		Aim::OverrideMouseInput_Post(x, y);
+		AimAssist::OverrideMouseInput_Post(x, y);
 	}
 
 	void __stdcall Hooked_PlaySound(const char* szFileName)

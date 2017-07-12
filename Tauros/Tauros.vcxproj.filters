@@ -269,9 +269,6 @@
     <ClInclude Include="Hacks\Trigger.hpp">
       <Filter>Hacks</Filter>
     </ClInclude>
-    <ClInclude Include="Hacks\Aim.hpp">
-      <Filter>Hacks</Filter>
-    </ClInclude>
     <ClInclude Include="Hacks\AutoAccept.hpp">
       <Filter>Hacks</Filter>
     </ClInclude>
@@ -283,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="EventListener.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hacks\AimAssist.hpp">
+      <Filter>Hacks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

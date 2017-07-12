@@ -14,7 +14,7 @@ namespace Options
 
     bool g_bMainWindowOpen = false;
 
-	// Aim
+	// AimAssist
 	bool g_bAimAssistEnabled = true;
 	bool g_bAimAssistFriendlyFire = false;
 	bool g_bAimAssistIgnoreObstacles = false;

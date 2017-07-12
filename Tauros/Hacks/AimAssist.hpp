@@ -1,7 +1,7 @@
 #pragma once
 
 bool IsAttacking = false;
-class Aim
+class AimAssist
 {
 public:
 	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
