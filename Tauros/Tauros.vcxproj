@@ -189,6 +189,7 @@
     <ClInclude Include="Hacks\AutoAccept.hpp" />
     <ClInclude Include="Hacks\Bhop.hpp" />
     <ClInclude Include="Hacks\Chams.hpp" />
+    <ClInclude Include="Hacks\DamageIndicator.hpp" />
     <ClInclude Include="Hacks\ESP.hpp" />
     <ClInclude Include="Hacks\RCS.hpp" />
     <ClInclude Include="Hacks\SkinChanger.hpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="SourceEngine\IConVar.hpp" />
     <ClInclude Include="SourceEngine\ICvar.hpp" />
     <ClInclude Include="SourceEngine\IEngineTrace.hpp" />
+    <ClInclude Include="SourceEngine\IGameEvents.hpp" />
     <ClInclude Include="SourceEngine\IHandleEntity.hpp" />
     <ClInclude Include="SourceEngine\IMaterialSystem.hpp" />
     <ClInclude Include="SourceEngine\IPanel.hpp" />

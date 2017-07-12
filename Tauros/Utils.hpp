@@ -13,6 +13,12 @@ inline float DEG2RAD(float deg)
 	return deg * 3.14159265358979323846f / 180.0f;
 }
 
+struct FontSize
+{
+	int width;
+	int height;
+};
+
 class Utils
 {
 public:

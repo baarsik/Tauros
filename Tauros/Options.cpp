@@ -42,6 +42,7 @@ namespace Options
 	float g_fChamsInvisibleColor[3] = { 1.0f, 127.0f / 255, 0.0f };
 	// Visuals (3)
 	bool g_bCleanScreenshot = true;
+	bool g_bDamageIndicatorEnabled = true;
 	bool g_bNoSmokeEnabled = false;
 	bool g_bNoFlashEnabled = false;
 	float g_fNoFlashAmount = 30.0f;

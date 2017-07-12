@@ -34,6 +34,7 @@
 #include "IClientMode.hpp"
 #include "CInput.hpp"
 #include "ICvar.hpp"
+#include "IGameEvents.hpp"
 #include "Convar.hpp"
 
 namespace se
@@ -55,6 +56,7 @@ namespace se
 		static IVRenderView*          RenderView();
 		static IVModelRender*         ModelRender();
 		static IMaterialSystem*       MaterialSystem();
+		static IGameEventManager2*    EventManager();
 
     private:
         static IVEngineClient*        m_pEngine;
@@ -71,5 +73,6 @@ namespace se
 		static IVRenderView*          m_pRenderView;
 		static IVModelRender*         m_pModelRender;
 		static IMaterialSystem*       m_pMaterialSystem;
+		static IGameEventManager2*    m_pGameEventManager2;
     };
 }

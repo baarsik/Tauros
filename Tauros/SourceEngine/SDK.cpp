@@ -19,6 +19,7 @@ namespace se
 	IVRenderView*       Interfaces::m_pRenderView = nullptr;
 	IVModelRender*      Interfaces::m_pModelRender = nullptr;
 	IMaterialSystem*    Interfaces::m_pMaterialSystem = nullptr;
+	IGameEventManager2* Interfaces::m_pGameEventManager2 = nullptr;
 
     CreateInterfaceFn GetFactory(HMODULE hMod)
     {
@@ -94,15 +95,24 @@ namespace se
         }
         return m_pInput;
     }
-    IEngineTrace* Interfaces::EngineTrace()
+	IGameEventManager2* Interfaces::EventManager()
     {
-        if(!m_pEngineTrace)
+        if(!m_pGameEventManager2)
 		{
 			auto pfnFactory = GetFactory(GetModuleHandleA(XorStr("engine.dll")));
-            m_pEngineTrace = CaptureInterface<IEngineTrace>(pfnFactory, XorStr("EngineTraceClient004"));
+			m_pGameEventManager2 = CaptureInterface<IGameEventManager2>(pfnFactory, XorStr("GAMEEVENTSMANAGER002"));
         }
-        return m_pEngineTrace;
+        return m_pGameEventManager2;
     }
+	IEngineTrace* Interfaces::EngineTrace()
+	{
+		if (!m_pEngineTrace)
+		{
+			auto pfnFactory = GetFactory(GetModuleHandleA(XorStr("engine.dll")));
+			m_pEngineTrace = CaptureInterface<IEngineTrace>(pfnFactory, XorStr("EngineTraceClient004"));
+		}
+		return m_pEngineTrace;
+	}
     ICvar* Interfaces::CVar()
     {
         if(!m_pCVar)

@@ -11,15 +11,16 @@
 
 #include "GUI.hpp"
 
+#include "Hacks/Aim.hpp"
 #include "Hacks/AutoAccept.hpp"
 #include "Hacks/Bhop.hpp"
 #include "Hacks/Chams.hpp"
+#include "Hacks/DamageIndicator.hpp"
 #include "Hacks/ESP.hpp"
 #include "Hacks/VisualMisc.hpp"
 #include "Hacks/RCS.hpp"
 #include "Hacks/SkinChanger.hpp"
 #include "Hacks/Trigger.hpp"
-#include "Hacks/Aim.hpp"
 
 using namespace std;
 
@@ -36,6 +37,7 @@ namespace Hooks
 	unique_ptr<VFTableHook>            g_pVGUIPanelHook = nullptr;
 	unique_ptr<VFTableHook>            g_pModelRenderHook = nullptr;
 	unique_ptr<VFTableHook>            g_pDrawModelExecuteHook = nullptr;
+	unique_ptr<VFTableHook>            g_pEventManagerHook = nullptr;
 
     unique_ptr<DrawManager>            g_pRenderer = nullptr;
 
@@ -48,6 +50,7 @@ namespace Hooks
 	OverrideView_t                     g_fnOriginalOverrideView = nullptr;
 	DrawModelExecute_t                 g_fnOriginalDrawModelExecute = nullptr;
 	OverrideMouseInput_t               g_fnOriginalOverrideMouseInput = nullptr;
+	FireEvent_t                        g_fnOriginalFireEvent = nullptr;
 
 	SetClanTag_t                       g_fnSetClanTag = nullptr;
 
@@ -79,8 +82,8 @@ namespace Hooks
         g_pMatSurfaceHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::MatSurface()), true);
 	    g_pVGUIPanelHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::VGUIPanel()), true);
 		g_pModelRenderHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::ModelRender()), true);
+		g_pEventManagerHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::EventManager()), true);
 
-        //Replace the WindowProc with our own to capture user input
         g_pOldWindowProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(g_hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(Hooked_WndProc)));
 
         g_fnOriginalReset = g_pD3DDevice9Hook->Hook(16, Hooked_Reset);                                                                   // IDirect3DDevice9::Reset
@@ -92,6 +95,7 @@ namespace Hooks
 	    g_fnOriginalPaintTraverse = g_pVGUIPanelHook->Hook(41, reinterpret_cast<PaintTraverse_t>(Hooked_PaintTraverse));                 // IPanel::PaintTraverse
 		g_fnOriginalDrawModelExecute = g_pModelRenderHook->Hook(21, reinterpret_cast<DrawModelExecute_t>(Hooked_DrawModelExecute));      // IVModelRender::DrawModelExecute
 		g_fnOriginalOverrideMouseInput = g_pClientModeHook->Hook(23, reinterpret_cast<OverrideMouseInput_t>(Hooked_OverrideMouseInput)); // IClientMode::OverrideMouseInput
+		g_fnOriginalFireEvent = g_pEventManagerHook->Hook(8, reinterpret_cast<FireEvent_t>(Hooked_FireEvent));
     }
 
     void Restore()
@@ -108,6 +112,7 @@ namespace Hooks
         g_pMatSurfaceHook->RestoreTable();
 		g_pVGUIPanelHook->RestoreTable();
 		g_pModelRenderHook->RestoreTable();
+		g_pEventManagerHook->RestoreTable();
     }
 
     void GUI_Init(IDirect3DDevice9* pDevice)
@@ -181,6 +186,7 @@ namespace Hooks
 			return;
 
 		ESP::PaintTraverse_Post();
+		DamageIndicator::PaintTraverse_Post();
 	}
 
     LRESULT __stdcall Hooked_WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -279,5 +285,19 @@ namespace Hooks
 		g_fnOriginalPlaySound(se::Interfaces::MatSurface(), szFileName);
 
 		AutoAccept::PlaySound_Post(szFileName);
+	}
+
+	bool __fastcall Hooked_FireEvent(void* ecx, void* edx, se::IGameEvent* event, bool bDontBroadcast)
+	{
+		using namespace se;
+		if (!event)
+			return g_fnOriginalFireEvent(ecx, edx, event, bDontBroadcast);
+
+		if (!strcmp(event->GetName(), "player_hurt"))
+		{
+			DamageIndicator::FireEvent_Post(event);
+		}
+
+		return g_fnOriginalFireEvent(ecx, edx, event, bDontBroadcast);
 	}
 }

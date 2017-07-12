@@ -77,17 +77,15 @@ private:
 
 	se::IMaterial* CreateMaterial(std::string name, std::string shaderName, std::string baseTexture, bool ignorez, bool nofog, bool model, bool nocull, bool halflambert) const
 	{
-		auto gamePath = Utils::GetGameDir();
-		std::string matName = XorStr("tauros_");
-		matName += name;
-		auto filePath = (gamePath + XorStr("csgo\\materials\\") + matName + XorStr(".vmt")).c_str();
-		if (auto file = fopen(filePath, "r"))
+		auto matName = XorStr("tauros_") + name;
+		auto filePath = Utils::GetGameDir() + XorStr("csgo\\materials\\") + matName + XorStr(".vmt");
+		if (auto file = fopen(filePath.c_str(), "r"))
 		{
 			fclose(file);
 			return se::Interfaces::MaterialSystem()->FindMaterial(matName.c_str(), XorStr(TEXTURE_GROUP_MODEL));
 		}
 
-		std::string materialData = XorStr("\"") + shaderName + XorStr("\"\n") +
+		auto materialData = XorStr("\"") + shaderName + XorStr("\"\n") +
 			XorStr("{\n") +
 			XorStr("\t\"$basetexture\" \"") + baseTexture + XorStr("\"\n") +
 			XorStr("\t\"$ignorez\" \"") + std::to_string(ignorez) + XorStr("\"\n") +
@@ -97,13 +95,13 @@ private:
 			XorStr("\t\"$halflambert\" \"") + std::to_string(halflambert) + XorStr("\"\n") +
 			XorStr("}\n");
 
-		auto file = fopen(filePath, "w");
-		if (!file)
-			return nullptr;
-
-		fputs(materialData.c_str(), file);
-		fclose(file);
-		return se::Interfaces::MaterialSystem()->FindMaterial(matName.c_str(), XorStr(TEXTURE_GROUP_MODEL));
+		if (auto file = fopen(filePath.c_str(), "w"))
+		{
+			fputs(materialData.c_str(), file);
+			fclose(file);
+			return se::Interfaces::MaterialSystem()->FindMaterial(matName.c_str(), XorStr(TEXTURE_GROUP_MODEL));
+		}
+		return nullptr;
 	}
 };
 

@@ -3,12 +3,6 @@
 #include "Options.hpp"
 #include "Utils.hpp"
 
-struct FontSize
-{
-	int width;
-	int height;
-};
-
 class ESP
 {
 public:
@@ -18,13 +12,14 @@ public:
 		if (!Options::g_bESPEnabled)
 			return;
 
+		auto pLocal = C_CSPlayer::GetLocalPlayer();
+
 		for (auto i = 1; i < Interfaces::Engine()->GetMaxClients(); i++)
 		{
 			if (i == Interfaces::Engine()->GetLocalPlayer())
 				continue;
 
 			auto pTarget = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(i));
-			auto pLocal = C_CSPlayer::GetLocalPlayer();
 			if (!pTarget || !pLocal)
 				continue;
 
@@ -225,7 +220,7 @@ private:
 		{
 			se::Interfaces::MatSurface()->SetFontGlyphSet(
 				font = se::Interfaces::MatSurface()->CreateFont(),
-				XorStr("Consolas"), 14,
+				XorStr("Tahoma"), 14,
 				FW_MEDIUM, 0, 0,
 				static_cast<int>(se::FontFlags::FONTFLAG_OUTLINE)
 			);
