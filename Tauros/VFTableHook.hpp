@@ -17,10 +17,10 @@ namespace Hooks
 			auto ppClass = reinterpret_cast<PPDWORD>(classBase);
             m_ppClassBase = ppClass;
             m_pOriginalVMTable = *ppClass;
-	        auto dwLength = CalculateLength();
-
-            m_pNewVMTable = new DWORD[dwLength];
-            memcpy(m_pNewVMTable, m_pOriginalVMTable, dwLength * sizeof(DWORD));
+	        
+			m_dwVMTableSize = GetCount();
+            m_pNewVMTable = new DWORD[m_dwVMTableSize];
+            memcpy(m_pNewVMTable, m_pOriginalVMTable, m_dwVMTableSize * sizeof(DWORD));
 
             DWORD old;
             VirtualProtect(m_ppClassBase, sizeof(DWORD), PAGE_EXECUTE_READWRITE, &old);
@@ -42,13 +42,16 @@ namespace Hooks
             VirtualProtect(m_ppClassBase, sizeof(DWORD), old, &old);
         }
 
-        template<class Type>
-        Type Hook(uint32_t index, Type fnNew)
+        template<class T>
+        T Hook(uint32_t index, T fnNew)
         {
+			if (!m_pNewVMTable || !m_pOriginalVMTable || index > m_dwVMTableSize || index < 0)
+				return nullptr;
+
 	        auto dwOld = static_cast<DWORD>(m_pOriginalVMTable[index]);
             m_pNewVMTable[index] = reinterpret_cast<DWORD>(fnNew);
             m_vecHookedIndexes.insert(std::make_pair(index, static_cast<DWORD>(dwOld)));
-            return reinterpret_cast<Type>(dwOld);
+            return reinterpret_cast<T>(dwOld);
         }
 
         void Unhook(uint32_t index)
@@ -61,19 +64,19 @@ namespace Hooks
             }
         }
 
-        template<class Type>
-        Type GetOriginal(uint32_t index)
+        template<class T>
+        T GetOriginal(uint32_t index)
         {
-            return reinterpret_cast<Type>(m_pOriginalVMTable[index]);
+            return reinterpret_cast<T>(m_pOriginalVMTable[index]);
         }
 
     private:
-        uint32_t CalculateLength()
+        DWORD GetCount()
         {
             if(!m_pOriginalVMTable)
 				return 0;
 
-			uint32_t dwIndex;
+			DWORD dwIndex;
             for(dwIndex = 0; m_pOriginalVMTable[dwIndex]; dwIndex++)
 			{
                 if(IsBadCodePtr(reinterpret_cast<FARPROC>(m_pOriginalVMTable[dwIndex])))
@@ -86,5 +89,6 @@ namespace Hooks
         PPDWORD m_ppClassBase;
         PDWORD m_pOriginalVMTable;
         PDWORD m_pNewVMTable;
+		DWORD m_dwVMTableSize;
     };
 }
