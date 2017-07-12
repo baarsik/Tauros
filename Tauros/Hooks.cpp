@@ -1,9 +1,10 @@
+#include "VFTableHook.hpp"
 #include "Hooks.hpp"
 #include "MaterialHelper.hpp"
 #include "Options.hpp"
 #include "Utils.hpp"
 #include "XorStr.hpp"
-#include "VFTableHook.hpp"
+#include "EventListener.hpp"
 
 #include "DrawManager.hpp"
 #include "ImGUI/imgui.h"
@@ -50,13 +51,13 @@ namespace Hooks
 	OverrideView_t                     g_fnOriginalOverrideView = nullptr;
 	DrawModelExecute_t                 g_fnOriginalDrawModelExecute = nullptr;
 	OverrideMouseInput_t               g_fnOriginalOverrideMouseInput = nullptr;
-	FireEvent_t                        g_fnOriginalFireEvent = nullptr;
 
 	SetClanTag_t                       g_fnSetClanTag = nullptr;
 
-    WNDPROC                            g_pOldWindowProc = nullptr; //Old WNDPROC pointer
+    WNDPROC                            g_pOldWindowProc = nullptr;
 
 	GUI                                g_Gui;
+	unique_ptr<EventListener>          g_EventListener = nullptr;
 
     bool                               g_vecPressedKeys[256] = {};
     bool                               g_bWasInitialized = false;
@@ -95,7 +96,8 @@ namespace Hooks
 	    g_fnOriginalPaintTraverse = g_pVGUIPanelHook->Hook(41, reinterpret_cast<PaintTraverse_t>(Hooked_PaintTraverse));                 // IPanel::PaintTraverse
 		g_fnOriginalDrawModelExecute = g_pModelRenderHook->Hook(21, reinterpret_cast<DrawModelExecute_t>(Hooked_DrawModelExecute));      // IVModelRender::DrawModelExecute
 		g_fnOriginalOverrideMouseInput = g_pClientModeHook->Hook(23, reinterpret_cast<OverrideMouseInput_t>(Hooked_OverrideMouseInput)); // IClientMode::OverrideMouseInput
-		g_fnOriginalFireEvent = g_pEventManagerHook->Hook(8, reinterpret_cast<FireEvent_t>(Hooked_FireEvent));
+
+		g_EventListener = make_unique<EventListener>();
     }
 
     void Restore()
@@ -104,6 +106,9 @@ namespace Hooks
         SetWindowLongPtr(g_hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(g_pOldWindowProc));
 
         g_pRenderer->InvalidateObjects();
+
+		// Delete listener
+		g_EventListener.reset();
 
         //Remove the hooks
         g_pD3DDevice9Hook->RestoreTable();
@@ -169,11 +174,10 @@ namespace Hooks
 		if (Options::g_bCleanScreenshot && se::Interfaces::Engine()->IsTakingScreenshot())
 			return;
 
-		using namespace se;
 		static unsigned int overlayPanel = 0;
 		if (overlayPanel == 0)
 		{
-			if (!strstr(Interfaces::VGUIPanel()->GetName(vguiPanel), XorStr("MatSystemTopPanel")))
+			if (!strstr(se::Interfaces::VGUIPanel()->GetName(vguiPanel), XorStr("MatSystemTopPanel")))
 				return;
 
 			overlayPanel = vguiPanel;
@@ -182,7 +186,7 @@ namespace Hooks
 		if (overlayPanel != vguiPanel)
 			return;
 
-		if (!Interfaces::Engine()->IsInGame())
+		if (!se::Interfaces::Engine()->IsInGame())
 			return;
 
 		ESP::PaintTraverse_Post();
@@ -274,8 +278,7 @@ namespace Hooks
 
 	void __stdcall Hooked_OverrideMouseInput(float* x, float* y)
 	{
-		using namespace se;
-		g_fnOriginalOverrideMouseInput(Interfaces::ClientMode(), x, y);
+		g_fnOriginalOverrideMouseInput(se::Interfaces::ClientMode(), x, y);
 
 		Aim::OverrideMouseInput_Post(x, y);
 	}
@@ -285,19 +288,5 @@ namespace Hooks
 		g_fnOriginalPlaySound(se::Interfaces::MatSurface(), szFileName);
 
 		AutoAccept::PlaySound_Post(szFileName);
-	}
-
-	bool __fastcall Hooked_FireEvent(void* ecx, void* edx, se::IGameEvent* event, bool bDontBroadcast)
-	{
-		using namespace se;
-		if (!event)
-			return g_fnOriginalFireEvent(ecx, edx, event, bDontBroadcast);
-
-		if (!strcmp(event->GetName(), "player_hurt"))
-		{
-			DamageIndicator::FireEvent_Post(event);
-		}
-
-		return g_fnOriginalFireEvent(ecx, edx, event, bDontBroadcast);
 	}
 }

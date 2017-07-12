@@ -126,7 +126,7 @@ private:
 		{
 			se::Interfaces::MatSurface()->SetFontGlyphSet(
 				font = se::Interfaces::MatSurface()->CreateFont(),
-				XorStr("Tahoma"), 20,
+				XorStr("Tahoma"), 24,
 				FW_HEAVY, 0, 0,
 				static_cast<int>(se::FontFlags::FONTFLAG_OUTLINE)
 			);

@@ -184,6 +184,7 @@
   <ItemGroup>
     <ClInclude Include="CSGOStructs.hpp" />
     <ClInclude Include="DrawManager.hpp" />
+    <ClInclude Include="EventListener.hpp" />
     <ClInclude Include="GUI.hpp" />
     <ClInclude Include="Hacks\Aim.hpp" />
     <ClInclude Include="Hacks\AutoAccept.hpp" />

@@ -39,7 +39,6 @@ namespace Hooks
 	using FrameStageNotify_t      = void(__thiscall*)(void*, se::ClientFrameStage_t);
 	using OverrideView_t          = void(__thiscall*)(void*, se::CViewSetup*);
 	using DrawModelExecute_t      = void(__thiscall*)(void*, se::IMatRenderContext*, const se::DrawModelState_t&, const se::ModelRenderInfo_t&, se::matrix3x4_t*);
-	using FireEvent_t             = bool(__fastcall*)(void*, void*, se::IGameEvent*, bool);
 	using SetClanTag_t            = void(__fastcall*)(const char*, const char*);
 	
     //---------------------------------------------------
@@ -54,7 +53,6 @@ namespace Hooks
 	void      __fastcall Hooked_FrameStageNotify(void* ecx, void* edx, se::ClientFrameStage_t curStage);
 	void      __fastcall Hooked_OverrideView(void* ecx, void* edx, se::CViewSetup* pViewSetup);
 	void      __fastcall Hooked_DrawModelExecute(void* ecx, void* edx, se::IMatRenderContext* ctx, const se::DrawModelState_t &state, const se::ModelRenderInfo_t &pInfo, se::matrix3x4_t *pCustomBoneToWorld);
-	bool      __fastcall Hooked_FireEvent(void* ecx, void* edx, se::IGameEvent* event, bool bDontBroadcast);
 
     //We're gonna replace the main window's WNDPROC for this one to capture user input and pass it down to the GUI
     LRESULT   __stdcall Hooked_WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
