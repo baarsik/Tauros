@@ -20,9 +20,10 @@ void MainGUI::WriteLine(char* text, GUILineStatus status)
 	guiLines.insert(guiLines.begin(), line);
 	if (guiLines.size() > consoleMaxLines)
 		guiLines.erase(guiLines.end() - 1);
-	for (unsigned short i = 0; i < guiLines.size(); i++)
+	auto guiLinesCount = static_cast<unsigned short>(guiLines.size());
+	for (unsigned short i = 0; i < guiLinesCount; i++)
 	{
-		SetCursorPosition({ 2, 5 + i });
+		SetCursorPosition({ 2, 4 + guiLinesCount - i });
 		SetColor(guiLines[i].GetStatus());
 		printf(guiLines[i].Get());
 		SetColor(7);
