@@ -77,13 +77,13 @@ namespace Hooks
         auto dwDevice = **reinterpret_cast<uint32_t**>(Utils::FindSignature(XorStr("shaderapidx9.dll"), XorStr("A1 ? ? ? ? 6A 00 53")) + 0x1);
 		g_fnSetClanTag = reinterpret_cast<SetClanTag_t>(Utils::FindSignature(XorStr("engine.dll"), XorStr("53 56 57 8B DA 8B F9 FF 15")));
 
-        g_pD3DDevice9Hook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(dwDevice), true);
-		g_pClientHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::Client()), true);
-        g_pClientModeHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::ClientMode()), true);
-        g_pMatSurfaceHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::MatSurface()), true);
-	    g_pVGUIPanelHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::VGUIPanel()), true);
-		g_pModelRenderHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::ModelRender()), true);
-		g_pEventManagerHook = make_unique<VFTableHook>(reinterpret_cast<PPDWORD>(se::Interfaces::EventManager()), true);
+        g_pD3DDevice9Hook = make_unique<VFTableHook>(dwDevice);
+		g_pClientHook = make_unique<VFTableHook>(se::Interfaces::Client());
+        g_pClientModeHook = make_unique<VFTableHook>(se::Interfaces::ClientMode());
+        g_pMatSurfaceHook = make_unique<VFTableHook>(se::Interfaces::MatSurface());
+	    g_pVGUIPanelHook = make_unique<VFTableHook>(se::Interfaces::VGUIPanel());
+		g_pModelRenderHook = make_unique<VFTableHook>(se::Interfaces::ModelRender());
+		g_pEventManagerHook = make_unique<VFTableHook>(se::Interfaces::EventManager());
 
         g_pOldWindowProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(g_hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(Hooked_WndProc)));
 

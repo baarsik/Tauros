@@ -11,50 +11,35 @@ namespace Hooks
     {
         VFTableHook(const VFTableHook&) = delete;
     public:
-        VFTableHook(PPDWORD ppClass, bool bReplace)
+		template <typename T>
+        VFTableHook(T classBase)
         {
+			auto ppClass = reinterpret_cast<PPDWORD>(classBase);
             m_ppClassBase = ppClass;
-            m_bReplace = bReplace;
-            if (bReplace)
-			{
-                m_pOriginalVMTable = *ppClass;
-	            auto dwLength = CalculateLength();
+            m_pOriginalVMTable = *ppClass;
+	        auto dwLength = CalculateLength();
 
-                m_pNewVMTable = new DWORD[dwLength];
-                memcpy(m_pNewVMTable, m_pOriginalVMTable, dwLength * sizeof(DWORD));
+            m_pNewVMTable = new DWORD[dwLength];
+            memcpy(m_pNewVMTable, m_pOriginalVMTable, dwLength * sizeof(DWORD));
 
-                DWORD old;
-                VirtualProtect(m_ppClassBase, sizeof(DWORD), PAGE_EXECUTE_READWRITE, &old);
-                *m_ppClassBase = m_pNewVMTable;
-                VirtualProtect(m_ppClassBase, sizeof(DWORD), old, &old);
-            }
-        	else
-			{
-                m_pOriginalVMTable = *ppClass;
-                m_pNewVMTable = *ppClass;
-            }
+            DWORD old;
+            VirtualProtect(m_ppClassBase, sizeof(DWORD), PAGE_EXECUTE_READWRITE, &old);
+            *m_ppClassBase = m_pNewVMTable;
+            VirtualProtect(m_ppClassBase, sizeof(DWORD), old, &old);
         }
 
         ~VFTableHook()
         {
             RestoreTable();
-            if(m_bReplace && m_pNewVMTable) delete[] m_pNewVMTable;
+            if(m_pNewVMTable) delete[] m_pNewVMTable;
         }
 
         void RestoreTable()
         {
-            if(m_bReplace)
-			{
-                DWORD old;
-                VirtualProtect(m_ppClassBase, sizeof(DWORD), PAGE_EXECUTE_READWRITE, &old);
-                *m_ppClassBase = m_pOriginalVMTable;
-                VirtualProtect(m_ppClassBase, sizeof(DWORD), old, &old);
-            }
-        	else
-			{
-                for(auto& pair : m_vecHookedIndexes)
-                    Unhook(pair.first);
-            }
+            DWORD old;
+            VirtualProtect(m_ppClassBase, sizeof(DWORD), PAGE_EXECUTE_READWRITE, &old);
+            *m_ppClassBase = m_pOriginalVMTable;
+            VirtualProtect(m_ppClassBase, sizeof(DWORD), old, &old);
         }
 
         template<class Type>
@@ -101,6 +86,5 @@ namespace Hooks
         PPDWORD m_ppClassBase;
         PDWORD m_pOriginalVMTable;
         PDWORD m_pNewVMTable;
-        bool m_bReplace;
     };
 }
