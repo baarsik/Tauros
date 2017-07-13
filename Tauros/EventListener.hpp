@@ -1,6 +1,4 @@
 #pragma once
-#include "Hacks/C4Timer.hpp"
-#include "Hacks/DamageInformer.hpp"
 
 class EventListener : public se::IGameEventListener2
 {

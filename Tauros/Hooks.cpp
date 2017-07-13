@@ -1,17 +1,18 @@
+// Basic stuff
 #include "VFTableHook.hpp"
 #include "Hooks.hpp"
 #include "MaterialHelper.hpp"
 #include "Options.hpp"
 #include "Utils.hpp"
 #include "XorStr.hpp"
-#include "EventListener.hpp"
 
+// GUI related
 #include "DrawManager.hpp"
 #include "ImGUI/imgui.h"
 #include "ImGUI/DX9/imgui_impl_dx9.h"
-
 #include "GUI.hpp"
 
+// Hacks
 #include "Hacks/AimAssist.hpp"
 #include "Hacks/AutoAccept.hpp"
 #include "Hacks/Bhop.hpp"
@@ -23,6 +24,9 @@
 #include "Hacks/RCS.hpp"
 #include "Hacks/SkinChanger.hpp"
 #include "Hacks/Trigger.hpp"
+
+// Helper classes
+#include "EventListener.hpp"
 
 using namespace std;
 
