@@ -1,4 +1,5 @@
 #pragma once
+#include "Hacks/C4Timer.hpp"
 #include "Hacks/DamageInformer.hpp"
 
 class EventListener : public se::IGameEventListener2
@@ -10,6 +11,7 @@ public:
 		se::Interfaces::EventManager()->AddListener(this, "player_spawned", false);
 		se::Interfaces::EventManager()->AddListener(this, "round_start", false);
 		se::Interfaces::EventManager()->AddListener(this, "bomb_planted", false);
+		se::Interfaces::EventManager()->AddListener(this, "bomb_exploded", false);
 	}
 	~EventListener()
 	{
@@ -39,20 +41,26 @@ public:
 			if (pLocal != pSpawned)
 				return;
 
-			// Local player spawn event
+			C4Timer::OnLocalPlayerSpawn(inrestart);
 		}
 		else if (!strcmp(event->GetName(), "round_start"))
 		{
 			auto timelimit = event->GetInt("timelimit");
 			auto fraglimit = event->GetInt("fraglimit");
 			auto objective = event->GetString("objective");
-			// Round start event
+			C4Timer::OnRoundStart(timelimit, fraglimit, objective);
 		}
 		else if (!strcmp(event->GetName(), "bomb_planted"))
 		{
 			auto pPlanter = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("userid"))));
 			auto site = event->GetInt("site");
-			// Bomb planted event
+			C4Timer::OnBombPlanted(pPlanter, site);
+		}
+		else if (!strcmp(event->GetName(), "bomb_exploded"))
+		{
+			auto pPlanter = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("userid"))));
+			auto site = event->GetInt("site");
+			C4Timer::OnBombExploded(pPlanter, site);
 		}
 	}
 

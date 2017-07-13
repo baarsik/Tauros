@@ -284,5 +284,8 @@
     <ClInclude Include="Hacks\DamageInformer.hpp">
       <Filter>Hacks</Filter>
     </ClInclude>
+    <ClInclude Include="Hacks\C4Timer.hpp">
+      <Filter>Hacks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
 #include "Options.hpp"
-#include "XorStr.hpp"
 
 namespace Options
 {
@@ -28,7 +27,7 @@ namespace Options
     bool g_bESPEnabled = true;
     int g_iESPShowBoxes = 2;
 	int g_iESPShowHealth = 3;
-	int g_iESPShowBones = 3;
+	int g_iESPShowBones = 1;
     int g_iESPShowNames = 3;
 	int g_iESPShowDistance = 0;
 	int g_iESPShowWeapon = 2;

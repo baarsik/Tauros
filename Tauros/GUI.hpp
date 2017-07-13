@@ -375,6 +375,9 @@ public:
 		clientWidth = rect.right - rect.left;
 		clientHeight = rect.bottom - rect.top;
 	}
+
+	int GetWidth() const { return clientWidth; }
+	int GetHeight() const { return clientHeight; }
 private:
 	int clientWidth;
 	int clientHeight;

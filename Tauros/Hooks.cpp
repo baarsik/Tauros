@@ -15,6 +15,7 @@
 #include "Hacks/AimAssist.hpp"
 #include "Hacks/AutoAccept.hpp"
 #include "Hacks/Bhop.hpp"
+#include "Hacks/C4Timer.hpp"
 #include "Hacks/Chams.hpp"
 #include "Hacks/DamageInformer.hpp"
 #include "Hacks/ESP.hpp"
@@ -191,6 +192,7 @@ namespace Hooks
 
 		ESP::PaintTraverse_Post();
 		DamageInformer::PaintTraverse_Post();
+		C4Timer::PaintTraverse_Post();
 	}
 
     LRESULT __stdcall Hooked_WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

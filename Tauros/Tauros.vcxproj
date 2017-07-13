@@ -189,6 +189,7 @@
     <ClInclude Include="Hacks\AimAssist.hpp" />
     <ClInclude Include="Hacks\AutoAccept.hpp" />
     <ClInclude Include="Hacks\Bhop.hpp" />
+    <ClInclude Include="Hacks\C4Timer.hpp" />
     <ClInclude Include="Hacks\Chams.hpp" />
     <ClInclude Include="Hacks\DamageInformer.hpp" />
     <ClInclude Include="Hacks\ESP.hpp" />
