@@ -8,7 +8,7 @@ class C4Timer
 public:
 	static void PaintTraverse_Post()
 	{
-		if (!bIsPlanted)
+		if (!Options::g_bC4TimerEnabled || !bIsPlanted)
 			return;
 
 		using namespace se;

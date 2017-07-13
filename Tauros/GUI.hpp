@@ -298,6 +298,7 @@ public:
 			ImGui::NextColumn();
 			DrawSpecialText(XorStr("Misc"), XorStr(""), false, false);
 			ImGui::Checkbox(XorStr("Clean screenshots"), &Options::g_bCleanScreenshot);
+			ImGui::Checkbox(XorStr("C4 explode timer"), &Options::g_bC4TimerEnabled);
 			ImGui::Checkbox(XorStr("Show damage"), &Options::g_bDamageInformerEnabled);
 			ImGui::Checkbox(XorStr("No smoke"), &Options::g_bNoSmokeEnabled);
 			ImGui::Checkbox(XorStr("No flash"), &Options::g_bNoFlashEnabled);
