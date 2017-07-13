@@ -14,7 +14,7 @@ struct DamageIndicator_t
 };
 std::vector<DamageIndicator_t> g_vecDamageIndicator;
 
-class DamageIndicator
+class DamageInformer
 {
 public:
 	static void PaintTraverse_Post()
@@ -48,41 +48,39 @@ public:
 				continue;
 
 			if (g_vecDamageIndicator[i].iDamage >= 100)
-				DrawStringExtraBold(static_cast<int>(vScreenPosition.x), static_cast<int>(vScreenPosition.y), 255, 75, 75, 255, true, std::to_string(g_vecDamageIndicator[i].iDamage).c_str());
+				DrawStringExtraBold(static_cast<int>(vScreenPosition.x), static_cast<int>(vScreenPosition.y), 255, 75, 75, 255, std::to_string(g_vecDamageIndicator[i].iDamage).c_str());
 			else
-				DrawString(static_cast<int>(vScreenPosition.x), static_cast<int>(vScreenPosition.y), 55, 175, 255, 255, true, std::to_string(g_vecDamageIndicator[i].iDamage).c_str());
+				DrawString(static_cast<int>(vScreenPosition.x), static_cast<int>(vScreenPosition.y), 55, 175, 255, 255, std::to_string(g_vecDamageIndicator[i].iDamage).c_str());
 		}
 	}
 
-	static void FireEvent_Post(se::IGameEvent* event)
+	static void OnPlayerHurt(C_CSPlayer* pVictim, C_CSPlayer* pAttacker, int health, int armor, const char* weapon, int dmg_health, int dmg_armor, int hitgroup)
 	{
 		using namespace se;
-		if (!Options::g_bDamageIndicatorEnabled)
+		if (!Options::g_bDamageInformerEnabled)
 			return;
 
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
-		auto hurt = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("userid"))));
-		auto attacker = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("attacker"))));
 
-		if (hurt != pLocal && attacker == pLocal)
+		if (pVictim != pLocal && pAttacker == pLocal)
 		{
 			auto drawPosOffset = 0;
 			for (auto const& indicator : g_vecDamageIndicator)
 			{
-				if (indicator.Player == hurt)
+				if (indicator.Player == pVictim)
 					drawPosOffset += 16;
 			}
 			DamageIndicator_t DmgIndicator;
-			DmgIndicator.iDamage = event->GetInt("dmg_health");
+			DmgIndicator.iDamage = dmg_health;
 			DmgIndicator.iDrawPosOffset = drawPosOffset;
-			DmgIndicator.Player = hurt;
+			DmgIndicator.Player = pVictim;
 			DmgIndicator.flEraseTime = pLocal->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick + 3.f;
 			DmgIndicator.bInitialized = false;
 			g_vecDamageIndicator.push_back(DmgIndicator);
 		}
 	}
 private:
-	static FontSize DrawString(int x, int y, int r, int g, int b, int a, bool bCenter, const char *pszText)
+	static FontSize DrawString(int x, int y, int r, int g, int b, int a, const char *pszText)
 	{
 		if (pszText == nullptr)
 			return FontSize{ -1, -1 };
@@ -106,13 +104,13 @@ private:
 		int iWidth, iHeight;
 		se::Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
 		se::Interfaces::MatSurface()->DrawSetTextFont(font);
-		se::Interfaces::MatSurface()->DrawSetTextPos(x - (bCenter ? iWidth / 2 : 0), y);
+		se::Interfaces::MatSurface()->DrawSetTextPos(x - iWidth / 2, y);
 		se::Interfaces::MatSurface()->DrawSetTextColor(se::Color(r, g, b, a));
 		se::Interfaces::MatSurface()->DrawPrintText(szString, wcslen(szString));
 		return FontSize{ iWidth, iHeight };
 	}
 
-	static FontSize DrawStringExtraBold(int x, int y, int r, int g, int b, int a, bool bCenter, const char *pszText)
+	static FontSize DrawStringExtraBold(int x, int y, int r, int g, int b, int a, const char *pszText)
 	{
 		if (pszText == nullptr)
 			return FontSize{ -1, -1 };
@@ -136,7 +134,7 @@ private:
 		int iWidth, iHeight;
 		se::Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
 		se::Interfaces::MatSurface()->DrawSetTextFont(font);
-		se::Interfaces::MatSurface()->DrawSetTextPos(x - (bCenter ? iWidth / 2 : 0), y);
+		se::Interfaces::MatSurface()->DrawSetTextPos(x - iWidth / 2, y);
 		se::Interfaces::MatSurface()->DrawSetTextColor(se::Color(r, g, b, a));
 		se::Interfaces::MatSurface()->DrawPrintText(szString, wcslen(szString));
 		return FontSize{ iWidth, iHeight };

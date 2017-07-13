@@ -298,7 +298,7 @@ public:
 			ImGui::NextColumn();
 			DrawSpecialText(XorStr("Misc"), XorStr(""), false, false);
 			ImGui::Checkbox(XorStr("Clean screenshots"), &Options::g_bCleanScreenshot);
-			ImGui::Checkbox(XorStr("Show damage"), &Options::g_bDamageIndicatorEnabled);
+			ImGui::Checkbox(XorStr("Show damage"), &Options::g_bDamageInformerEnabled);
 			ImGui::Checkbox(XorStr("No smoke"), &Options::g_bNoSmokeEnabled);
 			ImGui::Checkbox(XorStr("No flash"), &Options::g_bNoFlashEnabled);
 			ImGui::SliderFloat(XorStr("Max flash"), &Options::g_fNoFlashAmount, 0.0f, 100.0f, XorStr("%.0f%%"));

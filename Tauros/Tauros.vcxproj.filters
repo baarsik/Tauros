@@ -275,13 +275,13 @@
     <ClInclude Include="SourceEngine\IGameEvents.hpp">
       <Filter>SourceEngine</Filter>
     </ClInclude>
-    <ClInclude Include="Hacks\DamageIndicator.hpp">
-      <Filter>Hacks</Filter>
-    </ClInclude>
     <ClInclude Include="EventListener.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hacks\AimAssist.hpp">
+      <Filter>Hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Hacks\DamageInformer.hpp">
       <Filter>Hacks</Filter>
     </ClInclude>
   </ItemGroup>

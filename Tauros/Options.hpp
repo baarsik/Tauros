@@ -35,7 +35,7 @@ namespace Options
 	extern float g_fChamsInvisibleColor[3];
 	// Visuals (3)
 	extern bool g_bCleanScreenshot;
-	extern bool g_bDamageIndicatorEnabled;
+	extern bool g_bDamageInformerEnabled;
 	extern bool g_bNoSmokeEnabled;
 	extern bool g_bNoFlashEnabled;
 	extern float g_fNoFlashAmount;

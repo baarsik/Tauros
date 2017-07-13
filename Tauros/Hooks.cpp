@@ -16,7 +16,7 @@
 #include "Hacks/AutoAccept.hpp"
 #include "Hacks/Bhop.hpp"
 #include "Hacks/Chams.hpp"
-#include "Hacks/DamageIndicator.hpp"
+#include "Hacks/DamageInformer.hpp"
 #include "Hacks/ESP.hpp"
 #include "Hacks/VisualMisc.hpp"
 #include "Hacks/RCS.hpp"
@@ -190,7 +190,7 @@ namespace Hooks
 			return;
 
 		ESP::PaintTraverse_Post();
-		DamageIndicator::PaintTraverse_Post();
+		DamageInformer::PaintTraverse_Post();
 	}
 
     LRESULT __stdcall Hooked_WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
