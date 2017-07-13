@@ -225,7 +225,6 @@ namespace Hooks
         }
 
 		g_Gui.CheckToggle(g_vecPressedKeys, VK_INSERT);
-		g_Gui.CheckToggle(g_vecPressedKeys, VK_DELETE);
 
         if(g_bWasInitialized && Options::g_bMainWindowOpen && ImGui_ImplDX9_WndProcHandler(hWnd, uMsg, wParam, lParam))
             return true;
@@ -242,6 +241,20 @@ namespace Hooks
 		bRet &= RCS::CreateMove_Post(pLocal, pCmd);
 		Trigger::CreateMove_Post(pLocal, pCmd);
 		AimAssist::CreateMove_Post(pLocal, pCmd);
+
+	    if (false){
+			auto activeWeapon = pLocal->GetActiveWeapon();
+			if (!activeWeapon)
+				return bRet;
+
+			if (activeWeapon->NextPrimaryAttack() < se::Interfaces::GlobalVars()->curtime)
+				return bRet;
+
+			if (*activeWeapon->ItemDefinitionIndex() == se::ItemDefinitionIndex::WEAPON_REVOLVER)
+				pCmd->buttons &= ~IN_ATTACK2;
+			else
+				pCmd->buttons &= ~IN_ATTACK;
+	    }
 
 		g_fnSetClanTag("Cerberus", "Cerberus");
 
