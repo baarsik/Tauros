@@ -21,8 +21,8 @@ public:
 		using namespace se;
 		if (!strcmp(event->GetName(), XorStr("player_hurt")))
 		{
-			auto pVictim = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("userid"))));
-			auto pAttacker = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("attacker"))));
+			auto pVictim = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt(XorStr("userid")))));
+			auto pAttacker = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt(XorStr("attacker")))));
 			auto health = event->GetInt(XorStr("health"));
 			auto armor = event->GetInt(XorStr("armor"));
 			auto weapon = event->GetString(XorStr("weapon"));
@@ -34,7 +34,7 @@ public:
 		else if (!strcmp(event->GetName(), XorStr("player_spawned")))
 		{
 			auto pLocal = C_CSPlayer::GetLocalPlayer();
-			auto pSpawned = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("userid"))));
+			auto pSpawned = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt(XorStr("userid")))));
 			auto inrestart = event->GetBool(XorStr("inrestart"));
 			if (pLocal != pSpawned)
 				return;
