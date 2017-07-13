@@ -2,7 +2,8 @@
 
 bool bIsPlanted = false;
 float flPlantedTime;
-float explodesIn;
+float flExplodesIn;
+
 class C4Timer
 {
 public:
@@ -15,22 +16,22 @@ public:
 		auto flCurrentTime = C_CSPlayer::GetLocalPlayer()->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick;
 		int width, height;
 		Interfaces::MatSurface()->GetScreenSize(width, height);
-		auto textSize1 = GetSize("EXPLODE IN", 16, FW_NORMAL);
-		auto textSize2 = GetSize(std::to_string(static_cast<int>(explodesIn - flCurrentTime)).c_str(), 36, FW_HEAVY);
-		auto hpos1 = static_cast<int>(height / 1.5f);
-		auto hpos2 = hpos1 + 30 + textSize1.height + textSize2.height;
-		auto wpos1 = width - 160;
-		auto wpos2 = width;
+		auto textSize1 = GetSize(XorStr("EXPLODE IN"), 16, FW_NORMAL);
+		auto textSize2 = GetSize(std::to_string(static_cast<int>(flExplodesIn - flCurrentTime)).c_str(), 36, FW_HEAVY);
+		auto y1 = static_cast<int>(height / 1.5f);
+		auto y2 = y1 + 30 + textSize1.height + textSize2.height;
+		auto x1 = width - 160;
+		auto x2 = width;
 		Interfaces::MatSurface()->DrawSetColor(0, 0, 0, 200);
-		Interfaces::MatSurface()->DrawFilledRect(wpos1, hpos1, wpos2, hpos2);
-		DrawString((wpos1 + wpos2) / 2, hpos1 + 10, 255, 255, 255, 255, "EXPLODE IN", 16, FW_NORMAL);
-		DrawString((wpos1 + wpos2) / 2, hpos1 + 20 + textSize1.height / 2, 255, 255, 255, 255, std::to_string(static_cast<int>(explodesIn - flCurrentTime)).c_str(), 36, FW_HEAVY);
+		Interfaces::MatSurface()->DrawFilledRect(x1, y1, x2, y2);
+		DrawString((x1 + x2) / 2, y1 + 10, 255, 255, 255, 255, XorStr("EXPLODE IN"), 16, FW_NORMAL);
+		DrawString((x1 + x2) / 2, y1 + 20 + textSize1.height / 2, 255, 255, 255, 255, std::to_string(static_cast<int>(flExplodesIn - flCurrentTime)).c_str(), 36, FW_HEAVY);
 	}
 
 	static void OnBombPlanted(C_CSPlayer* planter, int site)
 	{
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
-		explodesIn = pLocal->GetTickBase() * se::Interfaces::GlobalVars()->interval_per_tick + se::Interfaces::CVar()->FindVar("mp_c4timer")->GetInt() + 1;
+		flExplodesIn = pLocal->GetTickBase() * se::Interfaces::GlobalVars()->interval_per_tick + se::Interfaces::CVar()->FindVar(XorStr("mp_c4timer"))->GetInt() + 1;
 		bIsPlanted = true;
 	}
 
