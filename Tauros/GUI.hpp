@@ -251,13 +251,16 @@ public:
 			DrawSpecialText(XorStr("."), XorStr("Cerberus"), true, true);
 			DrawSpecialText(XorStr("Tauros"), XorStr("Cerberus. "), true, ImVec4(0.2f, 122.f / 255.f, 183.f / 255.f, 1.f));
 			DrawSpecialText(std::string(XorStr("(")) + XorStr(__DATE__) + XorStr(")"), XorStr("Cerberus.Tauros"), false, true);
-			ImGui::Text(XorStr(u8"Coded by Барс"));
+
+			ImGui::TextWrapped(XorStr("\nTauros hack is developed to serve one purpose: provide better competetive matchmaking experiense by giving Tauros user extra information and enhancing his skill with software assistance. It is strictly recommended to play only legit settings and refuse from constant bunnyhop usage. Enjoy your legit Global Elite rankup."));
+
+			ImGui::Text(XorStr(u8"\nCoded by Барс"));
+			DrawSpecialText(XorStr("Skype: "), XorStr(""), true, true);
+			DrawSpecialText(XorStr("baarsik2"), XorStr("Skype: "), false, false);
+
 			DrawSpecialText(XorStr("\nCredits:"), XorStr(""), false, false);
 			ImGui::Text(XorStr("MarkHC for his CSGOSimple base"));
 			ImGui::Text(XorStr("Unknowncheats community for lots of code snippets"));
-#if DEBUG
-
-#endif
 		}
 		else if (openedWindow == WAim)
 		{
