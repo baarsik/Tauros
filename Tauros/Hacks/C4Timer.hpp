@@ -16,8 +16,8 @@ public:
 		auto flCurrentTime = C_CSPlayer::GetLocalPlayer()->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick;
 		int width, height;
 		Interfaces::MatSurface()->GetScreenSize(width, height);
-		auto textSize1 = GetSize(XorStr("EXPLODE IN"), 16, FW_NORMAL);
-		auto textSize2 = GetSize(std::to_string(static_cast<int>(flExplodesIn - flCurrentTime)).c_str(), 36, FW_HEAVY);
+		auto textSize1 = GetTextSize(XorStr("EXPLODE IN"), 16, FW_NORMAL);
+		auto textSize2 = GetTextSize(std::to_string(static_cast<int>(flExplodesIn - flCurrentTime)).c_str(), 36, FW_HEAVY);
 		auto y1 = static_cast<int>(height / 1.5f);
 		auto y2 = y1 + 30 + textSize1.height + textSize2.height;
 		auto x1 = width - 160;
@@ -50,7 +50,7 @@ public:
 		bIsPlanted = false;
 	}
 private:
-	static FontSize GetSize(const char* pszText, int tall, int weight)
+	static FontSize GetTextSize(const char* pszText, int tall, int weight)
 	{
 		if (pszText == nullptr)
 			return FontSize{ -1, -1 };
