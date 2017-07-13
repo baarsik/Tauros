@@ -210,7 +210,6 @@ public:
 
 		SetStyle();
 		auto flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse;
-		auto style = &ImGui::GetStyle();
 
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(clientWidth), 70));
