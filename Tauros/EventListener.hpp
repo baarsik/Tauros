@@ -40,6 +40,7 @@ public:
 				return;
 
 			C4Timer::OnLocalPlayerSpawn(inrestart);
+			DamageInformer::OnLocalPlayerSpawn(inrestart);
 		}
 		else if (!strcmp(event->GetName(), XorStr("round_start")))
 		{

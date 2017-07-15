@@ -48,6 +48,8 @@ namespace Options
 	extern int g_iTriggerKey;
 	extern bool g_bTriggerAlwaysActive;
 	extern bool g_bTriggerFriendlyFire;
+	extern bool g_bTriggerAutoPistol;
+	extern bool g_bTriggerAimSynergy;
 
 	// Skin
 	extern bool g_bSkinChangerEnabled;

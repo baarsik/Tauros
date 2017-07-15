@@ -79,6 +79,11 @@ public:
 			g_vecDamageIndicator.push_back(DmgIndicator);
 		}
 	}
+
+	static void OnLocalPlayerSpawn(bool inrestart)
+	{
+		g_vecDamageIndicator.clear();
+	}
 private:
 	static FontSize DrawString(int x, int y, int r, int g, int b, int a, const char *pszText)
 	{

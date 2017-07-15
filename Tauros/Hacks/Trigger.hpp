@@ -44,9 +44,32 @@ public:
 		if (target && target->GetTeamNum() == pLocal->GetTeamNum() && !Options::g_bTriggerFriendlyFire)
 			return;
 
+		
+		
 		pCmd->buttons |= IN_ATTACK;
+		if (Options::g_bTriggerAutoPistol)
+			AutoPistol(pLocal, pCmd);
 	}
 private:
+	static void AutoPistol(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	{
+		using namespace se;
+		auto pWeapon = pLocal->GetActiveWeapon();
+		if (!pWeapon)
+			return;
+
+		/*auto flServerTime = pLocal->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick;
+		if (pWeapon->NextPrimaryAttack() - flServerTime > 0)
+			return;*/
+
+		static auto skipAttack = false;
+		skipAttack = !skipAttack;
+		if (skipAttack)
+			return;
+
+		pCmd->buttons &= *pWeapon->ItemDefinitionIndex() == WEAPON_REVOLVER ? ~IN_ATTACK2 : ~IN_ATTACK;
+	}
+
 	static bool IsEnabled(C_CSPlayer* pLocal)
 	{
 		if (!Options::g_bTriggerEnabled || pLocal == nullptr || !pLocal->IsAlive())

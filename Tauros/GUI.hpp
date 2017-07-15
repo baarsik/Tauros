@@ -314,6 +314,8 @@ public:
 			ImGui::Combo(XorStr("Trigger key"), &Options::g_iTriggerKey, Options::Keys, IM_ARRAYSIZE(Options::Keys));
 			ImGui::Checkbox(XorStr("Always active"), &Options::g_bTriggerAlwaysActive);
 			ImGui::Checkbox(XorStr("Friendly fire"), &Options::g_bTriggerFriendlyFire);
+			ImGui::Checkbox(XorStr("Use Auto Pistol"), &Options::g_bTriggerAutoPistol);
+			ImGui::Checkbox(XorStr("Aim synergy [Requires AimAssist enabled]"), &Options::g_bTriggerAimSynergy);
 		}
 		else if (openedWindow == WSkin)
 		{

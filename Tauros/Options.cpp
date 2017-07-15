@@ -58,6 +58,8 @@ namespace Options
 	int g_iTriggerKey = 12;
 	bool g_bTriggerAlwaysActive = false;
 	bool g_bTriggerFriendlyFire = false;
+	bool g_bTriggerAutoPistol = true;
+	bool g_bTriggerAimSynergy = true;
 
 	// Skin
 	bool g_bSkinChangerEnabled = false;

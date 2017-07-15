@@ -167,6 +167,14 @@ public:
 	}
 
 	// Weapon type checks
+	bool IsPistol()
+    {
+		using namespace se;
+		auto index = *ItemDefinitionIndex();
+		return index == WEAPON_DEAGLE || index == WEAPON_ELITE || index == WEAPON_FIVESEVEN || index == WEAPON_GLOCK ||
+			index == WEAPON_TEC9 || index == WEAPON_HKP2000 || index == WEAPON_P250 || index == WEAPON_USP_SILENCER ||
+			index == WEAPON_CZ75A || index == WEAPON_REVOLVER;
+    }
 	bool IsGrenade()
     {
 		auto classId = this->GetClientClass()->m_ClassID;

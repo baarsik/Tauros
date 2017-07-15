@@ -234,31 +234,17 @@ namespace Hooks
 
     bool __stdcall Hooked_CreateMove(float sample_input_frametime, se::CUserCmd* pCmd)
     {
-	    auto bRet = g_fnOriginalCreateMove(se::Interfaces::ClientMode(), sample_input_frametime, pCmd);
+	    auto sendPacket = g_fnOriginalCreateMove(se::Interfaces::ClientMode(), sample_input_frametime, pCmd);
         auto pLocal = C_CSPlayer::GetLocalPlayer();
 
 		Bhop::CreateMove_Post(pLocal, pCmd);
-		bRet &= RCS::CreateMove_Post(pLocal, pCmd);
+		sendPacket &= RCS::CreateMove_Post(pLocal, pCmd);
 		Trigger::CreateMove_Post(pLocal, pCmd);
 		AimAssist::CreateMove_Post(pLocal, pCmd);
 
-	    if (false){
-			auto activeWeapon = pLocal->GetActiveWeapon();
-			if (!activeWeapon)
-				return bRet;
-
-			if (activeWeapon->NextPrimaryAttack() < se::Interfaces::GlobalVars()->curtime)
-				return bRet;
-
-			if (*activeWeapon->ItemDefinitionIndex() == se::ItemDefinitionIndex::WEAPON_REVOLVER)
-				pCmd->buttons &= ~IN_ATTACK2;
-			else
-				pCmd->buttons &= ~IN_ATTACK;
-	    }
-
 		g_fnSetClanTag("Cerberus", "Cerberus");
 
-        return bRet;
+        return sendPacket;
     }
 
 	void __fastcall Hooked_FrameStageNotify(void* ecx, void* edx, se::ClientFrameStage_t stage)

@@ -15,7 +15,7 @@ public:
 		if (!IsEnabled(pLocal))
 			return;
 
-		if (!IsAttacking && !Options::g_bAimAssistAutoShoot)
+		if (!IsAttacking && !Options::g_bAimAssistAutoShoot && !IsTriggerEnabled())
 			return;
 
 		auto pWeapon = pLocal->GetActiveWeapon();
@@ -137,6 +137,11 @@ private:
 	static bool IsEnabled(C_CSPlayer* pLocal)
 	{
 		return pLocal && Options::g_bAimAssistEnabled && pLocal->IsAlive();
+	}
+
+	static bool IsTriggerEnabled()
+	{
+		return Options::g_bTriggerEnabled && Options::g_bTriggerAimSynergy && (GetAsyncKeyState(Options::KeysID[Options::g_iTriggerKey]) || Options::g_bTriggerAlwaysActive);
 	}
 
 	static float GetFov(const se::QAngle& viewAngle, const se::QAngle& aimAngle)
