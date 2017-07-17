@@ -287,5 +287,8 @@
     <ClInclude Include="Hacks\C4Timer.hpp">
       <Filter>Hacks</Filter>
     </ClInclude>
+    <ClInclude Include="Hacks\AutoPistol.hpp">
+      <Filter>Hacks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

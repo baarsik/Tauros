@@ -15,6 +15,7 @@
 // Hacks
 #include "Hacks/AimAssist.hpp"
 #include "Hacks/AutoAccept.hpp"
+#include "Hacks/AutoPistol.hpp"
 #include "Hacks/Bhop.hpp"
 #include "Hacks/C4Timer.hpp"
 #include "Hacks/Chams.hpp"
@@ -225,6 +226,7 @@ namespace Hooks
         }
 
 		g_Gui.CheckToggle(g_vecPressedKeys, VK_INSERT);
+		AutoPistol::CheckToggle(g_vecPressedKeys);
 
         if(g_bWasInitialized && Options::g_bMainWindowOpen && ImGui_ImplDX9_WndProcHandler(hWnd, uMsg, wParam, lParam))
             return true;
@@ -241,6 +243,7 @@ namespace Hooks
 		sendPacket &= RCS::CreateMove_Post(pLocal, pCmd);
 		Trigger::CreateMove_Post(pLocal, pCmd);
 		AimAssist::CreateMove_Post(pLocal, pCmd);
+		AutoPistol::CreateMove_Post(pLocal, pCmd);
 
 		g_fnSetClanTag("Cerberus", "Cerberus");
 

@@ -221,6 +221,12 @@ public:
         static int m_hActiveWeapon = NetvarManager::Instance()->GetOffset(XorStr("DT_BaseCombatCharacter"), XorStr("m_hActiveWeapon"));
         return static_cast<C_BaseCombatWeapon*>(Interfaces::EntityList()->GetClientEntityFromHandle(GetFieldValue<CHandle<IClientEntity>>(m_hActiveWeapon)));
     }
+	float GetNextAttack()
+	{
+		using namespace se;
+		static int m_flNextAttack = NetvarManager::Instance()->GetOffset(XorStr("DT_BaseCombatCharacter"), XorStr("bcc_localdata"), XorStr("m_flNextAttack"));
+		return GetFieldValue<float>(m_flNextAttack);
+	}
     int GetHealth()
     {
         static int m_iHealth = NetvarManager::Instance()->GetOffset(XorStr("DT_BasePlayer"), XorStr("m_iHealth"));

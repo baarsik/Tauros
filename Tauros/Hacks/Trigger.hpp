@@ -44,30 +44,31 @@ public:
 		if (target && target->GetTeamNum() == pLocal->GetTeamNum() && !Options::g_bTriggerFriendlyFire)
 			return;
 
-		
-		
-		pCmd->buttons |= IN_ATTACK;
-		if (Options::g_bTriggerAutoPistol)
-			AutoPistol(pLocal, pCmd);
+		auto pWeapon = pLocal->GetActiveWeapon();
+		if (!pWeapon || pWeapon->GetClip() == 0)
+			return;
+
+		if (pWeapon->IsPistol())
+			AutoPistol(pLocal, pWeapon, pCmd);
+		else
+			pCmd->buttons |= IN_ATTACK;
 	}
 private:
-	static void AutoPistol(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static void AutoPistol(C_CSPlayer* pLocal, C_BaseCombatWeapon* pWeapon, se::CUserCmd* pCmd)
 	{
 		using namespace se;
-		auto pWeapon = pLocal->GetActiveWeapon();
-		if (!pWeapon)
+
+		// Let AutoPistol class handle this situation
+		if (Options::g_bAutoPistolEnabled && (GetKeyState(VK_LBUTTON) & 0x100) != 0)
 			return;
 
-		/*auto flServerTime = pLocal->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick;
-		if (pWeapon->NextPrimaryAttack() - flServerTime > 0)
-			return;*/
-
-		static auto skipAttack = false;
-		skipAttack = !skipAttack;
-		if (skipAttack)
+		if (pWeapon->NextPrimaryAttack() > pLocal->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick)
 			return;
-
-		pCmd->buttons &= *pWeapon->ItemDefinitionIndex() == WEAPON_REVOLVER ? ~IN_ATTACK2 : ~IN_ATTACK;
+		
+		if (*pWeapon->ItemDefinitionIndex() == WEAPON_REVOLVER)
+			pCmd->buttons |= IN_ATTACK2;
+		else
+			pCmd->buttons |= IN_ATTACK;
 	}
 
 	static bool IsEnabled(C_CSPlayer* pLocal)
