@@ -67,6 +67,7 @@ namespace Options
     bool g_bRCSEnabled = false;
 	bool g_bAutoPistolEnabled = true;
     bool g_bBHopEnabled = true;
+	bool g_bAutoStrafeEnabled = true;
 	bool g_bAutoAcceptEnabled = true;
 
 	// Configs

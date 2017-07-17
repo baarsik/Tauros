@@ -57,6 +57,7 @@ namespace Options
     extern bool g_bRCSEnabled;
 	extern bool g_bAutoPistolEnabled;
 	extern bool g_bBHopEnabled;
+	extern bool g_bAutoStrafeEnabled;
 	extern bool g_bAutoAcceptEnabled;
 
 	// Configs

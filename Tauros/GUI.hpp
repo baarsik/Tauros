@@ -327,6 +327,7 @@ public:
 			ImGui::Checkbox(XorStr("No recoil"), &Options::g_bRCSEnabled);
 			ImGui::Checkbox(XorStr("Auto Pistol"), &Options::g_bAutoPistolEnabled);
 			ImGui::Checkbox(XorStr("Bunny Hop"), &Options::g_bBHopEnabled);
+			ImGui::Checkbox(XorStr("Auto Strafe"), &Options::g_bAutoStrafeEnabled);
 			ImGui::Checkbox(XorStr("Auto Accept"), &Options::g_bAutoAcceptEnabled);
 		}
 		else if (openedWindow == WConfigs)
