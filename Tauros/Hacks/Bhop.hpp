@@ -5,8 +5,8 @@ class Bhop
 public:
 	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
 	{
-		DoBhop(pLocal, pCmd);
 		DoStrafe(pLocal, pCmd);
+		DoBhop(pLocal, pCmd);
 	}
 private:
 	static void DoBhop(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
@@ -32,6 +32,7 @@ private:
 		if (pLocal->GetFlags() & static_cast<int>(se::EntityFlags::FL_ONGROUND))
 			return;
 		
-		pCmd->sidemove = pCmd->mousedx < 0 ? -450.f : 450.f;
+		if (pCmd->buttons & IN_JUMP)
+			pCmd->sidemove = pCmd->mousedx < 0 ? -450.f : 450.f;
 	}
 };
