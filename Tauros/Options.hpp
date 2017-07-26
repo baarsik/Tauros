@@ -10,6 +10,7 @@ namespace Options
 	// AimAssist
 	extern bool g_bAimAssistEnabled;
 	extern bool g_bAimAssistFriendlyFire;
+	extern bool g_bAimAssistLockTarget;
 	extern bool g_bAimAssistIgnoreObstacles;
 	extern bool g_bAimAssistAutoShoot;
 	extern bool g_bAimAssistLockMouse;

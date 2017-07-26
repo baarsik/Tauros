@@ -8,7 +8,7 @@ public:
 	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
 	{
 		using namespace se;
-		if (!Options::g_bAutoPistolEnabled)
+		if (!Options::g_bAutoPistolEnabled || Options::g_bMainWindowOpen)
 			return;
 
 		auto pWeapon = pLocal->GetActiveWeapon();

@@ -16,6 +16,7 @@ namespace Options
 	// AimAssist
 	bool g_bAimAssistEnabled = true;
 	bool g_bAimAssistFriendlyFire = false;
+	bool g_bAimAssistLockTarget = true;
 	bool g_bAimAssistIgnoreObstacles = false;
 	bool g_bAimAssistAutoShoot = false;
 	bool g_bAimAssistLockMouse = true;

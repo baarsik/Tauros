@@ -267,6 +267,7 @@ public:
 			DrawSpecialText(XorStr("Aim Assist"), XorStr(""), false, false);
 			ImGui::Checkbox(XorStr("Enabled"), &Options::g_bAimAssistEnabled);
 			ImGui::Checkbox(XorStr("Friendly fire"), &Options::g_bAimAssistFriendlyFire);
+			ImGui::Checkbox(XorStr("Lock target"), &Options::g_bAimAssistLockTarget);
 			ImGui::Checkbox(XorStr("Ignore obstacles"), &Options::g_bAimAssistIgnoreObstacles);
 			ImGui::Checkbox(XorStr("Auto aim"), &Options::g_bAimAssistAutoShoot);
 			ImGui::Checkbox(XorStr("Lock mouse"), &Options::g_bAimAssistLockMouse);

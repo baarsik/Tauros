@@ -1,35 +1,51 @@
 #pragma once
 
-bool IsAttacking = false;
+bool g_bIsAttacking = false;
+C_CSPlayer* g_pAimLockTarget = nullptr;
 class AimAssist
 {
 public:
 	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
 	{
-		IsAttacking = pCmd->buttons & IN_ATTACK;
+		g_bIsAttacking = pCmd->buttons & IN_ATTACK;
 	}
 	static void OverrideMouseInput_Post(float* x, float* y)
 	{
 		using namespace se;
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
 		if (!IsEnabled(pLocal))
+		{
+			g_pAimLockTarget = nullptr;
 			return;
+		}
 
-		if (!IsAttacking && !Options::g_bAimAssistAutoShoot && !IsTriggerEnabled())
+		if (!g_bIsAttacking && !Options::g_bAimAssistAutoShoot && !IsTriggerEnabled())
+		{
+			g_pAimLockTarget = nullptr;
 			return;
+		}
 
 		auto pWeapon = pLocal->GetActiveWeapon();
 		if (!pWeapon || pWeapon->IsKnife() || pWeapon->IsGrenade() || pWeapon->IsC4())
+		{
+			g_pAimLockTarget = nullptr;
 			return;
+		}
+
+		if (g_pAimLockTarget != nullptr && !g_pAimLockTarget->IsAlive())
+			g_pAimLockTarget = nullptr;
 
 		auto bone = HEAD_0;
 		Vector qDelta;
 		while (true)
 		{
-			auto pTarget = GetClosestPlayer(pLocal, Options::g_fAimAssistFov, bone);
+			auto pTarget = g_pAimLockTarget == nullptr ? GetClosestPlayer(pLocal, Options::g_fAimAssistFov, bone) : g_pAimLockTarget;
 			if (pTarget && TraceBone(pLocal, pTarget, bone))
 			{
 				qDelta = GetDelta(pLocal, pTarget, bone);
+				if (Options::g_bAimAssistLockTarget)
+					g_pAimLockTarget = pTarget;
+
 				break;
 			}
 
@@ -38,7 +54,11 @@ public:
 			else if (bone == SPINE_3) bone = SPINE_2;
 			else if (bone == SPINE_2) bone = SPINE_1;
 			else if (bone == SPINE_1) bone = SPINE_0;
-			else return;
+			else
+			{
+				g_pAimLockTarget = nullptr;
+				return;
+			}
 		}
 
 		// Adjust cursor position (0.022f = no smoothing)
@@ -109,6 +129,8 @@ public:
 
 		QAngle viewAngles;
 		Interfaces::Engine()->GetViewAngles(viewAngles);
+		if (!Options::g_bRCSEnabled)
+			viewAngles += *pLocal->AimPunch() * 2.0f;
 		auto vEyePos = pLocal->GetEyePos();
 
 		for (auto i = 1; i <= Interfaces::Engine()->GetMaxClients(); i++)
