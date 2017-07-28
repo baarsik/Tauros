@@ -207,6 +207,7 @@
     <ClInclude Include="MaterialHelper.hpp" />
     <ClInclude Include="NetvarManager.hpp" />
     <ClInclude Include="Options.hpp" />
+    <ClInclude Include="SignatureHelper.hpp" />
     <ClInclude Include="SourceEngine\CGlobalVarsBase.hpp" />
     <ClInclude Include="SourceEngine\CHandle.hpp" />
     <ClInclude Include="SourceEngine\characterset.hpp" />

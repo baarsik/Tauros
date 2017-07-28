@@ -1,7 +1,8 @@
 // Basic stuff
 #include "VFTableHook.hpp"
-#include "Hooks.hpp"
 #include "MaterialHelper.hpp"
+#include "SignatureHelper.hpp"
+#include "Hooks.hpp"
 #include "Options.hpp"
 #include "Utils.hpp"
 #include "XorStr.hpp"
@@ -58,8 +59,6 @@ namespace Hooks
 	DrawModelExecute_t                 g_fnOriginalDrawModelExecute = nullptr;
 	OverrideMouseInput_t               g_fnOriginalOverrideMouseInput = nullptr;
 
-	SetClanTag_t                       g_fnSetClanTag = nullptr;
-
     WNDPROC                            g_pOldWindowProc = nullptr;
 
 	GUI                                g_Gui;
@@ -80,10 +79,7 @@ namespace Hooks
         NetvarManager::Instance()->CreateDatabase();
         NetvarManager::Instance()->Dump(Utils::GetDllDir() + XorStr("netvar_dump.txt"));
 
-        auto dwDevice = **reinterpret_cast<uint32_t**>(Utils::FindSignature(XorStr("shaderapidx9.dll"), XorStr("A1 ? ? ? ? 6A 00 53")) + 0x1);
-		g_fnSetClanTag = reinterpret_cast<SetClanTag_t>(Utils::FindSignature(XorStr("engine.dll"), XorStr("53 56 57 8B DA 8B F9 FF 15")));
-
-        g_pD3DDevice9Hook = make_unique<VFTableHook>(dwDevice);
+        g_pD3DDevice9Hook = make_unique<VFTableHook>(SignatureHelper::D3DDevice());
 		g_pClientHook = make_unique<VFTableHook>(se::Interfaces::Client());
         g_pClientModeHook = make_unique<VFTableHook>(se::Interfaces::ClientMode());
         g_pMatSurfaceHook = make_unique<VFTableHook>(se::Interfaces::MatSurface());
@@ -245,7 +241,7 @@ namespace Hooks
 		AimAssist::CreateMove_Post(pLocal, pCmd);
 		AutoPistol::CreateMove_Post(pLocal, pCmd);
 
-		g_fnSetClanTag("Cerberus", "Cerberus");
+		SignatureHelper::SetClanTag("Cerberus", "Cerberus");
 
         return sendPacket;
     }

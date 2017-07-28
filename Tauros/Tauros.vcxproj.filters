@@ -22,6 +22,9 @@
     <Filter Include="Hacks">
       <UniqueIdentifier>{98cd4139-59ca-49af-a768-67a0ac8c8915}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{327e4c27-1419-41f7-9167-6f9019c0632e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Options.cpp">
@@ -242,9 +245,6 @@
     <ClInclude Include="ImGUI\IconsFontAwesome.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialHelper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GUI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -289,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="Hacks\AutoPistol.hpp">
       <Filter>Hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialHelper.hpp">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SignatureHelper.hpp">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
