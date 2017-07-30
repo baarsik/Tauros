@@ -9,6 +9,7 @@ public:
 		se::Interfaces::EventManager()->AddListener(this, XorStr("player_spawned"), false);
 		se::Interfaces::EventManager()->AddListener(this, XorStr("round_start"), false);
 		se::Interfaces::EventManager()->AddListener(this, XorStr("bomb_planted"), false);
+		se::Interfaces::EventManager()->AddListener(this, XorStr("bomb_defused"), false);
 		se::Interfaces::EventManager()->AddListener(this, XorStr("bomb_exploded"), false);
 	}
 	~EventListener()
@@ -54,6 +55,12 @@ public:
 			auto pPlanter = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("userid"))));
 			auto site = event->GetInt(XorStr("site"));
 			C4Timer::OnBombPlanted(pPlanter, site);
+		}
+		else if (!strcmp(event->GetName(), XorStr("bomb_defused")))
+		{
+			auto pPlanter = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt("userid"))));
+			auto site = event->GetInt(XorStr("site"));
+			C4Timer::OnBombDefused(pPlanter, site);
 		}
 		else if (!strcmp(event->GetName(), XorStr("bomb_exploded")))
 		{

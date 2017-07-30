@@ -1,23 +1,26 @@
 #pragma once
 
-bool bIsPlanted = false;
-float flPlantedTime;
-float flExplodesIn;
+bool g_bIsPlanted = false;
+bool g_bIsDefused = false;
+int g_iTimeLeft;
+float g_flExplodesIn;
 
 class C4Timer
 {
 public:
 	static void PaintTraverse_Post()
 	{
-		if (!Options::g_bC4TimerEnabled || !bIsPlanted)
+		if (!Options::g_bC4TimerEnabled || !g_bIsPlanted)
 			return;
 
 		using namespace se;
-		auto time = static_cast<int>(flExplodesIn - C_CSPlayer::GetLocalPlayer()->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick);
+		if (!g_bIsDefused)
+			g_iTimeLeft = static_cast<int>(g_flExplodesIn - C_CSPlayer::GetLocalPlayer()->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick);
+
 		int width, height;
 		Interfaces::MatSurface()->GetScreenSize(width, height);
 		auto textSize1 = GetTextSize(XorStr("EXPLODE IN"));
-		auto textSize2 = GetTextSizeHeavy(std::to_string(time).c_str());
+		auto textSize2 = GetTextSizeHeavy(std::to_string(g_iTimeLeft).c_str());
 		auto y1 = static_cast<int>(height / 1.5f) - 15 - (textSize1.height + textSize2.height) / 2;
 		auto y2 = y1 + 30 + textSize1.height + textSize2.height;
 		auto x1 = width - 140;
@@ -28,29 +31,39 @@ public:
 		auto y = y1 + 10;
 		DrawString(x, y, 255, 255, 255, 255, XorStr("EXPLODE IN"));
 		y += textSize1.height + 10;
-		DrawStringHeavy(x, y, 255, 255, 255, 255, std::to_string(time).c_str());
+		int r, g, b;
+		if (g_bIsDefused) { r = 0; g = 255; b = 0; }
+		else if (g_iTimeLeft < 5) { r = 255; g = 0; b = 0; }
+		else { r = 255; g = 255; b = 255; }
+		DrawStringHeavy(x, y, r, g, b, 255, std::to_string(g_iTimeLeft).c_str());
 	}
 
 	static void OnBombPlanted(C_CSPlayer* planter, int site)
 	{
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
-		flExplodesIn = pLocal->GetTickBase() * se::Interfaces::GlobalVars()->interval_per_tick + se::Interfaces::CVar()->FindVar(XorStr("mp_c4timer"))->GetInt() + 1;
-		bIsPlanted = true;
+		g_flExplodesIn = pLocal->GetTickBase() * se::Interfaces::GlobalVars()->interval_per_tick + se::Interfaces::CVar()->FindVar(XorStr("mp_c4timer"))->GetInt() + 1;
+		g_bIsDefused = false;
+		g_bIsPlanted = true;
 	}
 
 	static void OnBombExploded(C_CSPlayer* planter, int site)
 	{
-		bIsPlanted = false;
+		g_bIsPlanted = false;
+	}
+
+	static void OnBombDefused(C_CSPlayer* planter, int site)
+	{
+		g_bIsDefused = true;
 	}
 
 	static void OnRoundStart(int timelimit, int fraglimit, const char* objective)
 	{
-		bIsPlanted = false;
+		g_bIsPlanted = false;
 	}
 
 	static void OnLocalPlayerSpawn(bool inrestart)
 	{
-		bIsPlanted = false;
+		g_bIsPlanted = false;
 	}
 private:
 	static FontSize GetTextSize(const char* pszText)
