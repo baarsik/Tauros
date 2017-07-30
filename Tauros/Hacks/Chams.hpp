@@ -26,9 +26,8 @@ private:
 		if (!pTarget || pTarget == pLocal || pTarget->IsDormant() || !pTarget->IsAlive() || pTarget->GetHealth() < 1)
 			return;
 
-		auto isImmune = false;// pTarget->IsImmune();
-		auto isAlly = pTarget->GetTeamNum() == pLocal->GetTeamNum();
-		if (isAlly)
+		auto isImmune = pTarget->IsImmune();
+		if (pTarget->GetTeamNum() == pLocal->GetTeamNum())
 			return;
 
 		if (Options::g_bChamsShowInvisible)
