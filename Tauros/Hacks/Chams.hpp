@@ -31,16 +31,17 @@ private:
 		if (isAlly)
 			return;
 
-		auto invisMaterial = MatHelper.GetMaterialById(Options::g_iChamsInvisibleMaterialId, true);
-		invisMaterial->ColorModulate(Options::g_fChamsInvisibleColor[0], Options::g_fChamsInvisibleColor[1], Options::g_fChamsInvisibleColor[2]);
-		//invisMaterial->AlphaModulate(1.0f);
-		invisMaterial->AlphaModulate(isImmune ? 0.4f : 1.0f);
-		Interfaces::ModelRender()->ForcedMaterialOverride(invisMaterial);
-		Interfaces::ModelRender()->DrawModelExecute(ctx, state, pInfo, pCustomBoneToWorld);
+		if (Options::g_bChamsShowInvisible)
+		{
+			auto invisMaterial = MatHelper.GetMaterialById(Options::g_iChamsInvisibleMaterialId, true);
+			invisMaterial->ColorModulate(Options::g_fChamsInvisibleColor[0], Options::g_fChamsInvisibleColor[1], Options::g_fChamsInvisibleColor[2]);
+			invisMaterial->AlphaModulate(isImmune ? 0.4f : 1.0f);
+			Interfaces::ModelRender()->ForcedMaterialOverride(invisMaterial);
+			Interfaces::ModelRender()->DrawModelExecute(ctx, state, pInfo, pCustomBoneToWorld);
+		}
 
 		auto visMaterial = MatHelper.GetMaterialById(Options::g_iChamsVisibleMaterialId, false);
 		visMaterial->ColorModulate(Options::g_fChamsVisibleColor[0], Options::g_fChamsVisibleColor[1], Options::g_fChamsVisibleColor[2]);
-		//visMaterial->AlphaModulate(1.0f);
 		visMaterial->AlphaModulate(isImmune ? 0.4f : 1.0f);
 		Interfaces::ModelRender()->ForcedMaterialOverride(visMaterial);
 	}

@@ -20,8 +20,8 @@ namespace Options
 	bool g_bAimAssistIgnoreObstacles = false;
 	bool g_bAimAssistAutoShoot = false;
 	bool g_bAimAssistLockMouse = true;
-	float g_fAimAssistFov = 1.7f;
-	float g_fAimAssistSmooth = 0.21f;
+	float g_fAimAssistFov = 1.55f;
+	float g_fAimAssistSmooth = 0.195f;
 	float g_fAimAssistVerticalSmoothMultiplier = 1.75f;
 
 	// Visuals (1)
@@ -36,6 +36,7 @@ namespace Options
 	float g_fESPEnemyColor[4] = { 1.0f, 151.0f / 255, 0.0f, 1.0f };
 	// Visuals (2)
 	bool g_bChamsEnabled = true;
+	bool g_bChamsShowInvisible = true;
 	int g_iChamsVisibleMaterialId = 1;
 	float g_fChamsVisibleColor[3] = { 152.0f / 255, 245.0f / 255, 1.0f };
 	int g_iChamsInvisibleMaterialId = 1;
@@ -65,7 +66,7 @@ namespace Options
 	bool g_bSkinChangerEnabled = false;
 
 	// Misc
-    bool g_bRCSEnabled = false;
+    bool g_bRCSEnabled = true;
 	bool g_bAutoPistolEnabled = true;
     bool g_bBHopEnabled = true;
 	bool g_bAutoStrafeEnabled = true;

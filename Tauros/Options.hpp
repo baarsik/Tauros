@@ -30,6 +30,7 @@ namespace Options
 	extern float g_fESPEnemyColor[4];
 	// Visuals (2)
 	extern bool g_bChamsEnabled;
+	extern bool g_bChamsShowInvisible;
 	extern int g_iChamsVisibleMaterialId;
 	extern float g_fChamsVisibleColor[3];
 	extern int g_iChamsInvisibleMaterialId;

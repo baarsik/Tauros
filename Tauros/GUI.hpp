@@ -293,6 +293,7 @@ public:
 			ImGui::NextColumn();
 			DrawSpecialText(XorStr("Chams"), XorStr(""), false, false);
 			ImGui::Checkbox(XorStr("Enabled "), &Options::g_bChamsEnabled);
+			ImGui::Checkbox(XorStr("Show invisible models"), &Options::g_bChamsShowInvisible);
 			ImGui::Combo(XorStr("Visible material"), &Options::g_iChamsVisibleMaterialId, MatHelper.GetMaterialNames(false));
 			ImGui::ColorEdit3(XorStr("Visible color"), Options::g_fChamsVisibleColor);
 			ImGui::Combo(XorStr("Invisible material"), &Options::g_iChamsInvisibleMaterialId, MatHelper.GetMaterialNames(true));
