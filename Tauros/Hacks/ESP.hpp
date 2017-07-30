@@ -23,11 +23,11 @@ public:
 			if (!pTarget || !pLocal)
 				continue;
 
-			if (!pTarget->IsAlive() || pTarget->IsDormant())
-				continue;
-
 			if (pTarget->GetClientClass()->m_ClassID == EClassIds::CCSPlayer)
 			{
+				if (!pTarget->IsAlive() || pTarget->IsDormant() || pLocal->IsObservingTarget(pTarget))
+					continue;
+
 				auto vOrigin = pTarget->GetOrigin();
 				auto vHead = Utils::GetEntityBone(pTarget, ECSPlayerBones::HEAD_0);
 				vHead.z += 15.0f;

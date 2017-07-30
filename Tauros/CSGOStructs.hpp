@@ -237,6 +237,15 @@ public:
 		static int m_ArmorValue = NetvarManager::Instance()->GetOffset(XorStr("DT_CSPlayer"), XorStr("m_ArmorValue"));
 		return GetFieldValue<int>(m_ArmorValue);
 	}
+	bool IsObservingTarget(C_CSPlayer* pTarget)
+    {
+		if (this->IsAlive())
+			return false;
+		
+		static int m_hObserverTarget = NetvarManager::Instance()->GetOffset(XorStr("DT_BasePlayer"), XorStr("m_hObserverTarget"));
+		auto observeTarget = static_cast<C_CSPlayer*>(se::Interfaces::EntityList()->GetClientEntityFromHandle(m_hObserverTarget));
+		return observeTarget != nullptr && observeTarget == pTarget;
+    }
 	float* FlashMaxAlpha()
     {
 		static int m_flFlashMaxAlpha = NetvarManager::Instance()->GetOffset(XorStr("DT_CSPlayer"), XorStr("m_flFlashMaxAlpha"));
