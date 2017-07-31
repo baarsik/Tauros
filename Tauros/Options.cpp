@@ -71,6 +71,7 @@ namespace Options
     bool g_bBHopEnabled = true;
 	bool g_bAutoStrafeEnabled = true;
 	bool g_bAutoAcceptEnabled = true;
+	bool g_bRankRevealerEnabled = true;
 
 	// Configs
 	const char* g_szGuiSchema[2] = {

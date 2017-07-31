@@ -61,6 +61,7 @@ namespace Options
 	extern bool g_bBHopEnabled;
 	extern bool g_bAutoStrafeEnabled;
 	extern bool g_bAutoAcceptEnabled;
+	extern bool g_bRankRevealerEnabled;
 
 	// Configs
 	extern const char* g_szGuiSchema[2];

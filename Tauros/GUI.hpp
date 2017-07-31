@@ -327,10 +327,11 @@ public:
 		{
 			ImGui::Columns(3, nullptr, false);
 			ImGui::Checkbox(XorStr("No recoil"), &Options::g_bRCSEnabled);
-			ImGui::Checkbox(XorStr("Auto Pistol"), &Options::g_bAutoPistolEnabled);
-			ImGui::Checkbox(XorStr("Bunny Hop"), &Options::g_bBHopEnabled);
-			ImGui::Checkbox(XorStr("Auto Strafe"), &Options::g_bAutoStrafeEnabled);
-			ImGui::Checkbox(XorStr("Auto Accept"), &Options::g_bAutoAcceptEnabled);
+			ImGui::Checkbox(XorStr("Auto pistol"), &Options::g_bAutoPistolEnabled);
+			ImGui::Checkbox(XorStr("Bunny hop"), &Options::g_bBHopEnabled);
+			ImGui::Checkbox(XorStr("Auto strafe"), &Options::g_bAutoStrafeEnabled);
+			ImGui::Checkbox(XorStr("Auto accept"), &Options::g_bAutoAcceptEnabled);
+			ImGui::Checkbox(XorStr("Reveal ranks"), &Options::g_bRankRevealerEnabled);
 		}
 		else if (openedWindow == WConfigs)
 		{

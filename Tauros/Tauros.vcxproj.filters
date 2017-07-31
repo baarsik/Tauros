@@ -296,5 +296,8 @@
     <ClInclude Include="SignatureHelper.hpp">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Hacks\RankRevealer.hpp">
+      <Filter>Hacks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

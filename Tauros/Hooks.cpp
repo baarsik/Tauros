@@ -23,6 +23,7 @@
 #include "Hacks/DamageInformer.hpp"
 #include "Hacks/ESP.hpp"
 #include "Hacks/VisualMisc.hpp"
+#include "Hacks/RankRevealer.hpp"
 #include "Hacks/RCS.hpp"
 #include "Hacks/SkinChanger.hpp"
 #include "Hacks/Trigger.hpp"
@@ -240,6 +241,7 @@ namespace Hooks
 		Trigger::CreateMove_Post(pLocal, pCmd);
 		AimAssist::CreateMove_Post(pLocal, pCmd);
 		AutoPistol::CreateMove_Post(pLocal, pCmd);
+		RankRevealer::CreateMove_Post(pLocal, pCmd);
 
 		SignatureHelper::SetClanTag("Cerberus", "Cerberus");
 

@@ -194,6 +194,7 @@
     <ClInclude Include="Hacks\Chams.hpp" />
     <ClInclude Include="Hacks\DamageInformer.hpp" />
     <ClInclude Include="Hacks\ESP.hpp" />
+    <ClInclude Include="Hacks\RankRevealer.hpp" />
     <ClInclude Include="Hacks\RCS.hpp" />
     <ClInclude Include="Hacks\SkinChanger.hpp" />
     <ClInclude Include="Hacks\Trigger.hpp" />
