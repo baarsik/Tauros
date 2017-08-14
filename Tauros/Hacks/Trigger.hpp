@@ -33,8 +33,11 @@ public:
 		if (trace.fraction == 1.f)
 			return;
 
-		//auto vTraceEndPos = trace.endpos;
 		if (!trace.m_pEnt)
+			return;
+
+		auto vTraceEndPos = trace.endpos;
+		if (SignatureHelper::IsBehindSmoke(vTraceStart, vTraceEndPos))
 			return;
 
 		auto target = static_cast<C_CSPlayer*>(trace.m_pEnt);

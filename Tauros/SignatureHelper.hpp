@@ -1,8 +1,9 @@
 #pragma once
 
-using SetClanTag_t = void(__fastcall*)(const char*, const char*);
-using IsReady_t = void(__cdecl*)();
+using SetClanTag_t          = void(__fastcall*)(const char*, const char*);
+using IsReady_t             = void(__cdecl*)();
 using ServerRankRevealAll_t = bool(__cdecl*)(int*);
+using LineThroughSmoke_t    = bool(__cdecl*)(se::Vector, se::Vector, int16_t);
 
 class SignatureHelper
 {
@@ -30,5 +31,11 @@ public:
 		static auto func = reinterpret_cast<ServerRankRevealAll_t>(Utils::FindSignature(XorStr("client.dll"), XorStr("55 8B EC 8B 0D ? ? ? ? 68")));
 		int param[3] = { 0, 0, 0 };
 		func(param);
+	}
+
+	static bool IsBehindSmoke(se::Vector loc, se::Vector rem)
+	{
+		static auto func = reinterpret_cast<LineThroughSmoke_t>(Utils::FindSignature(XorStr("client.dll"), XorStr("55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0")));
+		return func(loc, rem, true);
 	}
 };
