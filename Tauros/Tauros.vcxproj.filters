@@ -25,6 +25,9 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{327e4c27-1419-41f7-9167-6f9019c0632e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="fonts">
+      <UniqueIdentifier>{3641cea7-13cc-4f19-aa1d-a6bc82a2771a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Options.cpp">
@@ -299,5 +302,13 @@
     <ClInclude Include="Hacks\RankRevealer.hpp">
       <Filter>Hacks</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="fonts\fontawesome-webfont.ttf">
+      <Filter>fonts</Filter>
+    </Font>
+    <Font Include="fonts\gost-a.ttf">
+      <Filter>fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>
