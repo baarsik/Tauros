@@ -343,7 +343,7 @@ public:
 		ImGui::End();
 	}
 
-	void CheckToggle(bool vecPressedKeys[256], short key) const
+	bool CheckToggle(bool vecPressedKeys[256], short key) const
 	{
 		static auto isDown = false;
 		static auto isClicked = false;
@@ -356,19 +356,17 @@ public:
 		{
 			isClicked = true;
 			isDown = false;
+
+			Options::g_bMainWindowOpen = !Options::g_bMainWindowOpen;
+			static auto cl_mouseenable = se::Interfaces::CVar()->FindVar(XorStr("cl_mouseenable"));
+			cl_mouseenable->SetValue(!Options::g_bMainWindowOpen);
 		}
 		else
 		{
 			isClicked = false;
 			isDown = false;
 		}
-
-		if (isClicked) 
-		{
-			Options::g_bMainWindowOpen = !Options::g_bMainWindowOpen;
-			static auto cl_mouseenable = se::Interfaces::CVar()->FindVar(XorStr("cl_mouseenable"));
-			cl_mouseenable->SetValue(!Options::g_bMainWindowOpen);
-		}
+		return isClicked;
 	}
 
 	void UpdateCursorVisibility() const
