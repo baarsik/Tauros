@@ -14,11 +14,32 @@ private:
 		if (!Options::g_bBHopEnabled || !pLocal->IsAlive())
 			return;
 
-		if (pLocal->GetFlags() & static_cast<int>(se::EntityFlags::FL_ONGROUND))
-			return;
+		static bool lastJumped = false;
+		static bool shouldFake = false;
 
-		if (pCmd->buttons & IN_JUMP)
-			pCmd->buttons &= ~IN_JUMP;
+		if (!lastJumped && shouldFake)
+		{
+			shouldFake = false;
+			pCmd->buttons |= IN_JUMP;
+		}
+		else if (pCmd->buttons & IN_JUMP)
+		{
+			if (pLocal->GetFlags() & static_cast<int>(se::EntityFlags::FL_ONGROUND))
+			{
+				lastJumped = true;
+				shouldFake = true;
+			}
+			else
+			{
+				pCmd->buttons &= ~IN_JUMP;
+				lastJumped = false;
+			}
+		}
+		else
+		{
+			lastJumped = false;
+			shouldFake = false;
+		}
 	}
 
 	static void DoStrafe(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
