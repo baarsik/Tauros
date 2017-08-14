@@ -6,6 +6,7 @@
 #include "XorStr.hpp"
 
 class C_CSPlayer;
+struct CCSWeaponInfo;
 
 class C_BaseCombatWeapon : public se::IClientEntity
 {
@@ -38,13 +39,34 @@ public:
 	}
     int GetId()
     {
-        typedef int(__thiscall* tGetId)(void*);
-        return se::CallVFunction<tGetId>(this, 458)(this);
+        using GetId_t = int(__thiscall*)(void*);
+        return se::CallVFunction<GetId_t>(this, 458)(this);
     }
+	float C_BaseCombatWeapon::GetInaccuracy()
+	{
+		using GetInaccuracy_t = float(__thiscall*)(void*);
+		return se::CallVFunction<GetInaccuracy_t>(this, 483)(this);
+	}
+	float C_BaseCombatWeapon::GetSpread()
+	{
+		using GetSpread_t = float(__thiscall*)(void*);
+		return se::CallVFunction<GetSpread_t>(this, 484)(this);
+	}
+	void C_BaseCombatWeapon::UpdateAccuracyPenalty()
+	{
+		using UpdateAccuracyPenalty_t = void(__thiscall*)(void*);
+		se::CallVFunction<UpdateAccuracyPenalty_t>(this, 485)(this);
+	}
     const char* GetName()
     {
-        typedef const char*(__thiscall* tGetName)(void*);
-        return se::CallVFunction<tGetName>(this, 378)(this);
+        using GetName_t = const char*(__thiscall*)(void*);
+        return se::CallVFunction<GetName_t>(this, 378)(this);
+    }
+	CCSWeaponInfo* GetCSWpnData()
+    {
+		if (!this) return nullptr;
+		using CCSWeaponInfo_t = CCSWeaponInfo*(__thiscall*)(void*);
+		return se::CallVFunction<CCSWeaponInfo_t>(this, 456)(this);
     }
 
 	std::string GetReadableName()
@@ -309,4 +331,35 @@ public:
 		static int m_nTickBase = NetvarManager::Instance()->GetOffset(XorStr("DT_BasePlayer"), XorStr("localdata"), XorStr("m_nTickBase"));
 		return GetFieldValue<int>(m_nTickBase);
 	}
+};
+
+struct CHudTexture
+{
+	char szShortName[64];
+	char szTextureFile[64];
+
+	bool bRenderUsingFont;
+	bool bPrecached;
+	char cCharacterInFont;
+	se::HFont hFont;
+
+	int textureId;
+	float texCoords[4];
+
+	struct wrect_t { int left, right, top, bottom; };
+	wrect_t rc;
+};
+
+struct CCSWeaponInfo
+{
+	char	pad01[0x810];
+	CHudTexture* m_IconActive;
+	char	pad02[0x3C];
+	float	m_ArmorRatio; // 0x850
+	char	pad03[0x10];
+	float	m_Penetration; // 0x864
+	int		m_Damage; // 0x868
+	float	m_Range; // 0x86C
+	float	m_RangeModifier; // 0x870
+	int		m_BulletsPerShot; // 0x874
 };

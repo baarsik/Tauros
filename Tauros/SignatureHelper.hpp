@@ -33,7 +33,7 @@ public:
 		func(param);
 	}
 
-	static bool IsBehindSmoke(se::Vector loc, se::Vector rem)
+	static bool LineThroughSmoke(se::Vector loc, se::Vector rem)
 	{
 		static auto func = reinterpret_cast<LineThroughSmoke_t>(Utils::FindSignature(XorStr("client.dll"), XorStr("55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0")));
 		return func(loc, rem, true);

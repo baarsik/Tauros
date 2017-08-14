@@ -343,16 +343,16 @@ public:
 		ImGui::End();
 	}
 
-	bool CheckToggle(bool vecPressedKeys[256], short key) const
+	static bool CheckToggle(bool vecPressedKeys[256])
 	{
 		static auto isDown = false;
 		static auto isClicked = false;
-		if (vecPressedKeys[key])
+		if (vecPressedKeys[VK_F11] || vecPressedKeys[VK_INSERT])
 		{
 			isClicked = false;
 			isDown = true;
 		}
-		else if (!vecPressedKeys[key] && isDown)
+		else if (!vecPressedKeys[VK_F11] && !vecPressedKeys[VK_INSERT] && isDown)
 		{
 			isClicked = true;
 			isDown = false;

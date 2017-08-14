@@ -96,7 +96,7 @@ public:
 			return false;
 
 		auto vTraceEndPos = trace.endpos;
-		if (!Options::g_bAimAssistIgnoreSmoke && SignatureHelper::IsBehindSmoke(vEyePos, vTraceEndPos))
+		if (!Options::g_bAimAssistIgnoreSmoke && SignatureHelper::LineThroughSmoke(vEyePos, vTraceEndPos))
 			return false;
 
 		auto target = static_cast<C_CSPlayer*>(trace.m_pEnt);

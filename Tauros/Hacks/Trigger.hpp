@@ -37,7 +37,7 @@ public:
 			return;
 
 		auto vTraceEndPos = trace.endpos;
-		if (!Options::g_bTriggerIgnoreSmoke && SignatureHelper::IsBehindSmoke(vTraceStart, vTraceEndPos))
+		if (!Options::g_bTriggerIgnoreSmoke && SignatureHelper::LineThroughSmoke(vTraceStart, vTraceEndPos))
 			return;
 
 		auto target = static_cast<C_CSPlayer*>(trace.m_pEnt);

@@ -222,9 +222,7 @@ namespace Hooks
             default: break;
         }
 
-		g_Gui.CheckToggle(g_vecPressedKeys, VK_INSERT);
-		g_Gui.CheckToggle(g_vecPressedKeys, VK_F11);
-
+		GUI::CheckToggle(g_vecPressedKeys);
 		AutoPistol::CheckToggle(g_vecPressedKeys);
 
         if(g_bWasInitialized && Options::g_bMainWindowOpen && ImGui_ImplDX9_WndProcHandler(hWnd, uMsg, wParam, lParam))
