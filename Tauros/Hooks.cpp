@@ -94,7 +94,7 @@ namespace Hooks
         g_fnOriginalEndScene = g_pD3DDevice9Hook->Hook(42, Hooked_EndScene);                                                             // IDirect3DDevice9::EndScene
 		g_fnOriginalFrameStageNotify = g_pClientHook->Hook(36, reinterpret_cast<FrameStageNotify_t>(Hooked_FrameStageNotify));           // Client::FrameStageNotify
 		g_fnOriginalOverrideView = g_pClientModeHook->Hook(18, reinterpret_cast<OverrideView_t>(Hooked_OverrideView));                   // IClientMode::OverrideView
-        g_fnOriginalCreateMove = g_pClientModeHook->Hook(24, reinterpret_cast<CreateMove_t>(Hooked_CreateMove));                         // IClientMode::CreateMove
+        g_fnOriginalCreateMove = g_pClientHook->Hook(21, reinterpret_cast<CreateMove_t>(Hooked_CreateMove_Proxy));                   // IClientMode::CreateMove
 		g_fnOriginalPlaySound = g_pMatSurfaceHook->Hook(82, reinterpret_cast<PlaySound_t>(Hooked_PlaySound));                            // ISurface::PlaySound
 	    g_fnOriginalPaintTraverse = g_pVGUIPanelHook->Hook(41, reinterpret_cast<PaintTraverse_t>(Hooked_PaintTraverse));                 // IPanel::PaintTraverse
 		g_fnOriginalDrawModelExecute = g_pModelRenderHook->Hook(21, reinterpret_cast<DrawModelExecute_t>(Hooked_DrawModelExecute));      // IVModelRender::DrawModelExecute
@@ -233,22 +233,48 @@ namespace Hooks
         return CallWindowProc(g_pOldWindowProc, hWnd, uMsg, wParam, lParam);
     }
 
-    bool __stdcall Hooked_CreateMove(float sample_input_frametime, se::CUserCmd* pCmd)
+    void __stdcall Hooked_CreateMove(int sequence_number, float input_sample_frametime, bool active, bool& bSendPacket)
     {
-	    auto sendPacket = g_fnOriginalCreateMove(se::Interfaces::ClientMode(), sample_input_frametime, pCmd);
+	    g_fnOriginalCreateMove(se::Interfaces::Client(), sequence_number, input_sample_frametime, active);
         auto pLocal = C_CSPlayer::GetLocalPlayer();
 
-		Bhop::CreateMove_Post(pLocal, pCmd);
-		sendPacket &= RCS::CreateMove_Post(pLocal, pCmd);
-		Trigger::CreateMove_Post(pLocal, pCmd);
-		AimAssist::CreateMove_Post(pLocal, pCmd);
-		AutoPistol::CreateMove_Post(pLocal, pCmd);
-		RankRevealer::CreateMove_Post(pLocal, pCmd);
+		auto cmd = se::Interfaces::Input()->GetUserCmd(sequence_number);
+		auto verified = se::Interfaces::Input()->GetVerifiedUserCmd(sequence_number);
+
+		if (!cmd || !verified)
+			return;
+
+		Bhop::CreateMove_Post(pLocal, cmd);
+		RCS::CreateMove_Post(pLocal, cmd);
+		Trigger::CreateMove_Post(pLocal, cmd);
+		AimAssist::CreateMove_Post(pLocal, cmd);
+		AutoPistol::CreateMove_Post(pLocal, cmd);
+		RankRevealer::CreateMove_Post(pLocal, cmd);
 
 		SignatureHelper::SetClanTag("Cerberus", "Cerberus");
 
-        return sendPacket;
+		verified->m_cmd = *cmd;
+		verified->m_crc = cmd->GetChecksum();
     }
+
+	__declspec(naked) void __stdcall Hooked_CreateMove_Proxy(int sequence_number, float input_sample_frametime, bool active)
+	{
+		__asm
+		{
+			push ebp
+			mov  ebp, esp
+			push ebx
+			lea  ecx, [esp]
+			push ecx
+			push dword ptr[active]
+			push dword ptr[input_sample_frametime]
+			push dword ptr[sequence_number]
+			call Hooks::Hooked_CreateMove
+			pop  ebx
+			pop  ebp
+			retn 0Ch
+		}
+	}
 
 	void __fastcall Hooked_FrameStageNotify(void* ecx, void* edx, se::ClientFrameStage_t stage)
     {

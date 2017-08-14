@@ -118,5 +118,21 @@ namespace se
         char                pad_0xE4[0x8];                //0xE4
         CUserCmd*           m_pCommands;                  //0xEC
         CVerifiedUserCmd*   m_pVerifiedCommands;          //0xF0
+
+		__forceinline CUserCmd* GetUserCmd(int sequence_number)
+		{
+			if (m_pCommands == nullptr)
+				return nullptr;
+
+			return &m_pCommands[sequence_number % 150];
+		}
+
+		__forceinline CVerifiedUserCmd* GetVerifiedUserCmd(int sequence_number)
+		{
+			if (m_pVerifiedCommands == nullptr)
+				return nullptr;
+
+			return &m_pVerifiedCommands[sequence_number % 150];
+		}
     };
 }

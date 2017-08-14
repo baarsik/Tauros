@@ -32,7 +32,7 @@ namespace Hooks
     //---------------------------------------------------
 	using EndScene_t              = long(__stdcall*)(IDirect3DDevice9*);
 	using Reset_t                 = long(__stdcall*)(IDirect3DDevice9*, D3DPRESENT_PARAMETERS*);
-    using CreateMove_t            = bool(__thiscall*)(se::IClientMode*, float, se::CUserCmd*);
+    using CreateMove_t            = void(__thiscall*)(se::IBaseClientDLL*, int, float, bool);
     using PlaySound_t             = void(__thiscall*)(se::ISurface*, const char*);
 	using OverrideMouseInput_t    = void(__thiscall*)(se::IClientMode*, float*, float*);
 	using PaintTraverse_t         = void(__thiscall*)(se::IPanel*, se::VPANEL, bool, bool);
@@ -46,7 +46,8 @@ namespace Hooks
     HRESULT   __stdcall Hooked_EndScene(IDirect3DDevice9* pDevice);
     HRESULT   __stdcall Hooked_Reset(IDirect3DDevice9* pDevice, D3DPRESENT_PARAMETERS* pPresentationParameters);
 	void      __stdcall Hooked_OverrideMouseInput(float* x, float* y);
-    bool      __stdcall Hooked_CreateMove(float sample_input_frametime, se::CUserCmd* pCmd);
+	void      __stdcall Hooked_CreateMove(int sequence_number, float input_sample_frametime, bool active, bool& bSendPacket);
+	void      __stdcall Hooked_CreateMove_Proxy(int sequence_number, float input_sample_frametime, bool active);
 	void      __stdcall Hooked_PlaySound(const char* szFileName);
 	void      __fastcall Hooked_PaintTraverse(se::IPanel* pPanel, void* edx, se::VPANEL vguiPanel, bool forceRepaint, bool allowForce);
 	void      __fastcall Hooked_FrameStageNotify(void* ecx, void* edx, se::ClientFrameStage_t curStage);
