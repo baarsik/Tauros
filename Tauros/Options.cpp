@@ -20,6 +20,7 @@ namespace Options
 	bool g_bAimAssistIgnoreObstacles = false;
 	bool g_bAimAssistAutoShoot = false;
 	bool g_bAimAssistLockMouse = true;
+	bool g_bAimAssistIgnoreSmoke = false;
 	float g_fAimAssistFov = 1.55f;
 	float g_fAimAssistSmooth = 0.195f;
 	float g_fAimAssistVerticalSmoothMultiplier = 1.75f;
@@ -60,6 +61,7 @@ namespace Options
 	int g_iTriggerKey = 12;
 	bool g_bTriggerAlwaysActive = false;
 	bool g_bTriggerFriendlyFire = false;
+	bool g_bTriggerIgnoreSmoke = false;
 	bool g_bTriggerAimSynergy = true;
 
 	// Skin

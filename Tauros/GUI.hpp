@@ -271,6 +271,7 @@ public:
 			ImGui::Checkbox(XorStr("Ignore obstacles"), &Options::g_bAimAssistIgnoreObstacles);
 			ImGui::Checkbox(XorStr("Auto aim"), &Options::g_bAimAssistAutoShoot);
 			ImGui::Checkbox(XorStr("Lock mouse"), &Options::g_bAimAssistLockMouse);
+			ImGui::Checkbox(XorStr("Ignore smoke"), &Options::g_bAimAssistIgnoreSmoke);
 			ImGui::SliderFloat(XorStr("FOV"), &Options::g_fAimAssistFov, 0.0f, 60.0f, XorStr("%.2f"));
 			ImGui::SliderFloat(XorStr("Smooth"), &Options::g_fAimAssistSmooth, 0.022f, 1.5f, XorStr("%.4f"));
 			ImGui::SliderFloat(XorStr("Vertical smooth multiplier"), &Options::g_fAimAssistVerticalSmoothMultiplier, 1.0f, 5.0f, XorStr("%.2f"));
@@ -316,6 +317,7 @@ public:
 			ImGui::Combo(XorStr("Trigger key"), &Options::g_iTriggerKey, Options::Keys, IM_ARRAYSIZE(Options::Keys));
 			ImGui::Checkbox(XorStr("Always active"), &Options::g_bTriggerAlwaysActive);
 			ImGui::Checkbox(XorStr("Friendly fire"), &Options::g_bTriggerFriendlyFire);
+			ImGui::Checkbox(XorStr("Ignore smoke"), &Options::g_bTriggerIgnoreSmoke);
 			ImGui::Checkbox(XorStr("Aim synergy [Requires AimAssist enabled]"), &Options::g_bTriggerAimSynergy);
 		}
 		else if (openedWindow == WSkin)

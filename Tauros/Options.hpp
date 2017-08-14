@@ -14,6 +14,7 @@ namespace Options
 	extern bool g_bAimAssistIgnoreObstacles;
 	extern bool g_bAimAssistAutoShoot;
 	extern bool g_bAimAssistLockMouse;
+	extern bool g_bAimAssistIgnoreSmoke;
 	extern float g_fAimAssistFov;
 	extern float g_fAimAssistSmooth;
 	extern float g_fAimAssistVerticalSmoothMultiplier;
@@ -50,6 +51,7 @@ namespace Options
 	extern int g_iTriggerKey;
 	extern bool g_bTriggerAlwaysActive;
 	extern bool g_bTriggerFriendlyFire;
+	extern bool g_bTriggerIgnoreSmoke;
 	extern bool g_bTriggerAimSynergy;
 
 	// Skin

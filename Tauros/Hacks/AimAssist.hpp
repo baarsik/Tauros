@@ -95,6 +95,10 @@ public:
 		if (trace.fraction == 1.f || !trace.m_pEnt)
 			return false;
 
+		auto vTraceEndPos = trace.endpos;
+		if (!Options::g_bAimAssistIgnoreSmoke && SignatureHelper::IsBehindSmoke(vEyePos, vTraceEndPos))
+			return false;
+
 		auto target = static_cast<C_CSPlayer*>(trace.m_pEnt);
 		if (!target || !target->IsAlive() || target->GetHealth() < 1 || target->IsImmune() || target->IsDormant())
 			return false;
