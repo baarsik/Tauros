@@ -13,7 +13,6 @@ public:
 		if (!Options::g_bC4TimerEnabled || !g_bIsPlanted)
 			return;
 
-		using namespace se;
 		if (!g_bIsDefused)
 			g_iTimeLeft = static_cast<int>(g_flExplodesIn - C_CSPlayer::GetLocalPlayer()->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick);
 
@@ -41,7 +40,7 @@ public:
 	static void OnBombPlanted(C_CSPlayer* planter, int site)
 	{
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
-		g_flExplodesIn = pLocal->GetTickBase() * se::Interfaces::GlobalVars()->interval_per_tick + se::Interfaces::CVar()->FindVar(XorStr("mp_c4timer"))->GetInt() + 1;
+		g_flExplodesIn = pLocal->GetTickBase() * Interfaces::GlobalVars()->interval_per_tick + Interfaces::CVar()->FindVar(XorStr("mp_c4timer"))->GetInt() + 1;
 		g_bIsDefused = false;
 		g_bIsPlanted = true;
 	}
@@ -71,15 +70,15 @@ private:
 		if (pszText == nullptr)
 			return FontSize{ -1, -1 };
 
-		static se::HFont font;
+		static HFont font;
 		static auto fontInitialized = false;
 		if (!fontInitialized)
 		{
-			se::Interfaces::MatSurface()->SetFontGlyphSet(
-				font = se::Interfaces::MatSurface()->CreateFont(),
+			Interfaces::MatSurface()->SetFontGlyphSet(
+				font = Interfaces::MatSurface()->CreateFont(),
 				XorStr("Tahoma"), 16,
 				FW_NORMAL, 0, 0,
-				static_cast<int>(se::FontFlags::FONTFLAG_NONE)
+				static_cast<int>(FontFlags::FONTFLAG_NONE)
 			);
 			fontInitialized = true;
 		}
@@ -87,7 +86,7 @@ private:
 		int iWidth, iHeight;
 		wchar_t szString[64];
 		MultiByteToWideChar(CP_UTF8, 0, pszText, -1, szString, 64);
-		se::Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
+		Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
 		return FontSize { iWidth, iHeight };
 	}
 
@@ -96,15 +95,15 @@ private:
 		if (pszText == nullptr)
 			return FontSize{ -1, -1 };
 
-		static se::HFont font;
+		static HFont font;
 		static auto fontInitialized = false;
 		if (!fontInitialized)
 		{
-			se::Interfaces::MatSurface()->SetFontGlyphSet(
-				font = se::Interfaces::MatSurface()->CreateFont(),
+			Interfaces::MatSurface()->SetFontGlyphSet(
+				font = Interfaces::MatSurface()->CreateFont(),
 				XorStr("Tahoma"), 36,
 				FW_HEAVY, 0, 0,
-				static_cast<int>(se::FontFlags::FONTFLAG_NONE)
+				static_cast<int>(FontFlags::FONTFLAG_NONE)
 			);
 			fontInitialized = true;
 		}
@@ -112,7 +111,7 @@ private:
 		int iWidth, iHeight;
 		wchar_t szString[64];
 		MultiByteToWideChar(CP_UTF8, 0, pszText, -1, szString, 64);
-		se::Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
+		Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
 		return FontSize{ iWidth, iHeight };
 	}
 
@@ -124,25 +123,25 @@ private:
 		wchar_t szString[64];
 		MultiByteToWideChar(CP_UTF8, 0, pszText, -1, szString, 64);
 
-		static se::HFont font;
+		static HFont font;
 		static auto fontInitialized = false;
 		if (!fontInitialized)
 		{
-			se::Interfaces::MatSurface()->SetFontGlyphSet(
-				font = se::Interfaces::MatSurface()->CreateFont(),
+			Interfaces::MatSurface()->SetFontGlyphSet(
+				font = Interfaces::MatSurface()->CreateFont(),
 				XorStr("Tahoma"), 16,
 				FW_NORMAL, 0, 0,
-				static_cast<int>(se::FontFlags::FONTFLAG_NONE)
+				static_cast<int>(FontFlags::FONTFLAG_NONE)
 			);
 			fontInitialized = true;
 		}
 
 		int iWidth, iHeight;
-		se::Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
-		se::Interfaces::MatSurface()->DrawSetTextFont(font);
-		se::Interfaces::MatSurface()->DrawSetTextPos(x - iWidth / 2, y);
-		se::Interfaces::MatSurface()->DrawSetTextColor(se::Color(r, g, b, a));
-		se::Interfaces::MatSurface()->DrawPrintText(szString, wcslen(szString));
+		Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
+		Interfaces::MatSurface()->DrawSetTextFont(font);
+		Interfaces::MatSurface()->DrawSetTextPos(x - iWidth / 2, y);
+		Interfaces::MatSurface()->DrawSetTextColor(Color(r, g, b, a));
+		Interfaces::MatSurface()->DrawPrintText(szString, wcslen(szString));
 		return FontSize{ iWidth, iHeight };
 	}
 
@@ -154,25 +153,25 @@ private:
 		wchar_t szString[64];
 		MultiByteToWideChar(CP_UTF8, 0, pszText, -1, szString, 64);
 
-		static se::HFont font;
+		static HFont font;
 		static auto fontInitialized = false;
 		if (!fontInitialized)
 		{
-			se::Interfaces::MatSurface()->SetFontGlyphSet(
-				font = se::Interfaces::MatSurface()->CreateFont(),
+			Interfaces::MatSurface()->SetFontGlyphSet(
+				font = Interfaces::MatSurface()->CreateFont(),
 				XorStr("Tahoma"), 36,
 				FW_HEAVY, 0, 0,
-				static_cast<int>(se::FontFlags::FONTFLAG_NONE)
+				static_cast<int>(FontFlags::FONTFLAG_NONE)
 			);
 			fontInitialized = true;
 		}
 
 		int iWidth, iHeight;
-		se::Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
-		se::Interfaces::MatSurface()->DrawSetTextFont(font);
-		se::Interfaces::MatSurface()->DrawSetTextPos(x - iWidth / 2, y);
-		se::Interfaces::MatSurface()->DrawSetTextColor(se::Color(r, g, b, a));
-		se::Interfaces::MatSurface()->DrawPrintText(szString, wcslen(szString));
+		Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
+		Interfaces::MatSurface()->DrawSetTextFont(font);
+		Interfaces::MatSurface()->DrawSetTextPos(x - iWidth / 2, y);
+		Interfaces::MatSurface()->DrawSetTextColor(Color(r, g, b, a));
+		Interfaces::MatSurface()->DrawPrintText(szString, wcslen(szString));
 		return FontSize{ iWidth, iHeight };
 	}
 };

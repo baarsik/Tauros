@@ -32,13 +32,13 @@ namespace Hooks
     //---------------------------------------------------
 	using EndScene_t              = long(__stdcall*)(IDirect3DDevice9*);
 	using Reset_t                 = long(__stdcall*)(IDirect3DDevice9*, D3DPRESENT_PARAMETERS*);
-    using CreateMove_t            = void(__thiscall*)(se::IBaseClientDLL*, int, float, bool);
-    using PlaySound_t             = void(__thiscall*)(se::ISurface*, const char*);
-	using OverrideMouseInput_t    = void(__thiscall*)(se::IClientMode*, float*, float*);
-	using PaintTraverse_t         = void(__thiscall*)(se::IPanel*, se::VPANEL, bool, bool);
-	using FrameStageNotify_t      = void(__thiscall*)(void*, se::ClientFrameStage_t);
-	using OverrideView_t          = void(__thiscall*)(void*, se::CViewSetup*);
-	using DrawModelExecute_t      = void(__thiscall*)(void*, se::IMatRenderContext*, const se::DrawModelState_t&, const se::ModelRenderInfo_t&, se::matrix3x4_t*);
+    using CreateMove_t            = void(__thiscall*)(IBaseClientDLL*, int, float, bool);
+    using PlaySound_t             = void(__thiscall*)(ISurface*, const char*);
+	using OverrideMouseInput_t    = void(__thiscall*)(IClientMode*, float*, float*);
+	using PaintTraverse_t         = void(__thiscall*)(IPanel*, VPANEL, bool, bool);
+	using FrameStageNotify_t      = void(__thiscall*)(void*, ClientFrameStage_t);
+	using OverrideView_t          = void(__thiscall*)(void*, CViewSetup*);
+	using DrawModelExecute_t      = void(__thiscall*)(void*, IMatRenderContext*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4_t*);
 	
     //---------------------------------------------------
     // Hooked functions
@@ -49,10 +49,10 @@ namespace Hooks
 	void      __stdcall Hooked_CreateMove(int sequence_number, float input_sample_frametime, bool active, bool& bSendPacket);
 	void      __stdcall Hooked_CreateMove_Proxy(int sequence_number, float input_sample_frametime, bool active);
 	void      __stdcall Hooked_PlaySound(const char* szFileName);
-	void      __fastcall Hooked_PaintTraverse(se::IPanel* pPanel, void* edx, se::VPANEL vguiPanel, bool forceRepaint, bool allowForce);
-	void      __fastcall Hooked_FrameStageNotify(void* ecx, void* edx, se::ClientFrameStage_t curStage);
-	void      __fastcall Hooked_OverrideView(void* ecx, void* edx, se::CViewSetup* pViewSetup);
-	void      __fastcall Hooked_DrawModelExecute(void* ecx, void* edx, se::IMatRenderContext* ctx, const se::DrawModelState_t &state, const se::ModelRenderInfo_t &pInfo, se::matrix3x4_t *pCustomBoneToWorld);
+	void      __fastcall Hooked_PaintTraverse(IPanel* pPanel, void* edx, VPANEL vguiPanel, bool forceRepaint, bool allowForce);
+	void      __fastcall Hooked_FrameStageNotify(void* ecx, void* edx, ClientFrameStage_t curStage);
+	void      __fastcall Hooked_OverrideView(void* ecx, void* edx, CViewSetup* pViewSetup);
+	void      __fastcall Hooked_DrawModelExecute(void* ecx, void* edx, IMatRenderContext* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld);
 
     //We're gonna replace the main window's WNDPROC for this one to capture user input and pass it down to the GUI
     LRESULT   __stdcall Hooked_WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

@@ -1,12 +1,12 @@
 #pragma once
 
-se::Vector RCS_aimPunchOld;
-se::Vector RCS_viewPunchOld;
+Vector RCS_aimPunchOld;
+Vector RCS_viewPunchOld;
 
 class RCS
 {
 public:
-	static bool CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static bool CreateMove_Post(C_CSPlayer* pLocal, CUserCmd* pCmd)
 	{
 		if (!IsValid(pLocal))
 			return true;
@@ -20,7 +20,7 @@ public:
 		}
 		return true;
 	}
-	static void OverrideView_Pre(se::CViewSetup* pViewSetup)
+	static void OverrideView_Pre(CViewSetup* pViewSetup)
 	{
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
 		if (!IsValid(pLocal))
@@ -29,7 +29,7 @@ public:
 		pViewSetup->angles -= *pLocal->AimPunch() * 2.0f * 0.45f;
 		Utils::Clamp(pViewSetup->angles);
 	}
-	static void FrameStageNotify_Pre(se::ClientFrameStage_t stage)
+	static void FrameStageNotify_Pre(ClientFrameStage_t stage)
 	{
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
 		if (!IsValid(pLocal))
@@ -37,17 +37,17 @@ public:
 
 		auto aimPunch = pLocal->AimPunch();
 		auto viewPunch = pLocal->ViewPunch();
-		RCS_aimPunchOld = se::Vector(0, 0, 0);
-		RCS_viewPunchOld = se::Vector(0, 0, 0);
+		RCS_aimPunchOld = Vector(0, 0, 0);
+		RCS_viewPunchOld = Vector(0, 0, 0);
 		if (aimPunch && viewPunch)
 		{
 			RCS_aimPunchOld = *aimPunch;
 			RCS_viewPunchOld = *viewPunch;
-			*aimPunch = se::Vector(0, 0, 0);
-			*viewPunch = se::Vector(0, 0, 0);
+			*aimPunch = Vector(0, 0, 0);
+			*viewPunch = Vector(0, 0, 0);
 		}
 	}
-	static void FrameStageNotify_Post(se::ClientFrameStage_t stage)
+	static void FrameStageNotify_Post(ClientFrameStage_t stage)
 	{
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
 		if (!IsValid(pLocal))

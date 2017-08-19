@@ -358,7 +358,7 @@ public:
 			isDown = false;
 
 			Options::g_bMainWindowOpen = !Options::g_bMainWindowOpen;
-			static auto cl_mouseenable = se::Interfaces::CVar()->FindVar(XorStr("cl_mouseenable"));
+			static auto cl_mouseenable = Interfaces::CVar()->FindVar(XorStr("cl_mouseenable"));
 			cl_mouseenable->SetValue(!Options::g_bMainWindowOpen);
 		}
 		else

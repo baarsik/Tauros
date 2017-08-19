@@ -36,43 +36,41 @@
 #include "ICvar.hpp"
 #include "IGameEvents.hpp"
 #include "Convar.hpp"
+#include "CCSWeaponData.hpp"
 
-namespace se
+class Interfaces
 {
-	class Interfaces
-    {
-    public:
-        static IVEngineClient*        Engine();
-        static IBaseClientDLL*        Client();
-        static IClientEntityList*     EntityList();
-        static CGlobalVarsBase*       GlobalVars();
-        static IPanel*                VGUIPanel();
-        static ISurface*              MatSurface();
-        static CInput*                Input();
-        static IEngineTrace*          EngineTrace();
-        static ICvar*                 CVar();
-        static IClientMode*           ClientMode();
-		static IVModelInfo*           ModelInfo();
-		static IVRenderView*          RenderView();
-		static IVModelRender*         ModelRender();
-		static IMaterialSystem*       MaterialSystem();
-		static IGameEventManager2*    EventManager();
+public:
+	static IVEngineClient*        Engine();
+	static IBaseClientDLL*        Client();
+	static IClientEntityList*     EntityList();
+	static CGlobalVarsBase*       GlobalVars();
+	static IPanel*                VGUIPanel();
+	static ISurface*              MatSurface();
+	static CInput*                Input();
+	static IEngineTrace*          EngineTrace();
+	static ICvar*                 CVar();
+	static IClientMode*           ClientMode();
+	static IVModelInfo*           ModelInfo();
+	static IVRenderView*          RenderView();
+	static IVModelRender*         ModelRender();
+	static IMaterialSystem*       MaterialSystem();
+	static IGameEventManager2*    EventManager();
 
-    private:
-        static IVEngineClient*        m_pEngine;
-        static IBaseClientDLL*        m_pClient;
-        static IClientEntityList*     m_pEntityList;
-        static CGlobalVarsBase*       m_pGlobals;
-        static IPanel*                m_pVGuiPanel;
-        static ISurface*              m_pVGuiSurface;
-        static CInput*                m_pInput;
-        static IEngineTrace*          m_pEngineTrace;
-        static ICvar*                 m_pCVar;
-        static IClientMode*           m_pClientMode;
-		static IVModelInfo*           m_pModelInfo;
-		static IVRenderView*          m_pRenderView;
-		static IVModelRender*         m_pModelRender;
-		static IMaterialSystem*       m_pMaterialSystem;
-		static IGameEventManager2*    m_pGameEventManager2;
-    };
-}
+private:
+	static IVEngineClient*        m_pEngine;
+	static IBaseClientDLL*        m_pClient;
+	static IClientEntityList*     m_pEntityList;
+	static CGlobalVarsBase*       m_pGlobals;
+	static IPanel*                m_pVGuiPanel;
+	static ISurface*              m_pVGuiSurface;
+	static CInput*                m_pInput;
+	static IEngineTrace*          m_pEngineTrace;
+	static ICvar*                 m_pCVar;
+	static IClientMode*           m_pClientMode;
+	static IVModelInfo*           m_pModelInfo;
+	static IVRenderView*          m_pRenderView;
+	static IVModelRender*         m_pModelRender;
+	static IMaterialSystem*       m_pMaterialSystem;
+	static IGameEventManager2*    m_pGameEventManager2;
+};

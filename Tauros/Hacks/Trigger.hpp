@@ -3,12 +3,11 @@
 class Trigger
 {
 public:
-	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static void CreateMove_Post(C_CSPlayer* pLocal, CUserCmd* pCmd)
 	{
 		if (!IsEnabled(pLocal))
 			return;
 
-		using namespace se;
 		auto vTraceForward = Vector(0, 0, 0);
 		auto vTraceAngles = pCmd->viewangles;
 		if (!Options::g_bRCSEnabled)
@@ -57,10 +56,8 @@ public:
 			pCmd->buttons |= IN_ATTACK;
 	}
 private:
-	static void AutoPistol(C_CSPlayer* pLocal, C_BaseCombatWeapon* pWeapon, se::CUserCmd* pCmd)
+	static void AutoPistol(C_CSPlayer* pLocal, C_BaseCombatWeapon* pWeapon, CUserCmd* pCmd)
 	{
-		using namespace se;
-
 		// Let AutoPistol class handle this situation
 		if (Options::g_bAutoPistolEnabled && (GetKeyState(VK_LBUTTON) & 0x100) != 0)
 			return;

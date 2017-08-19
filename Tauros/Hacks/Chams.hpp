@@ -3,9 +3,8 @@
 class Chams
 {
 public:
-	static void DrawModelExecute_Pre(void* ecx, se::IMatRenderContext* ctx, const se::DrawModelState_t &state, const se::ModelRenderInfo_t &pInfo, se::matrix3x4_t *pCustomBoneToWorld)
+	static void DrawModelExecute_Pre(void* ecx, IMatRenderContext* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 	{
-		using namespace se;
 		if (!Options::g_bChamsEnabled || !pInfo.pModel)
 			return;
 
@@ -14,10 +13,8 @@ public:
 			ApplyPlayerChams(ecx, ctx, state, pInfo, pCustomBoneToWorld);
 	}
 private:
-	static void ApplyPlayerChams(void* ecx, se::IMatRenderContext* ctx, const se::DrawModelState_t &state, const se::ModelRenderInfo_t &pInfo, se::matrix3x4_t *pCustomBoneToWorld)
+	static void ApplyPlayerChams(void* ecx, IMatRenderContext* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 	{
-		using namespace se;
-
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
 		if (!pLocal)
 			return;

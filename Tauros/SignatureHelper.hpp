@@ -3,7 +3,7 @@
 using SetClanTag_t          = void(__fastcall*)(const char*, const char*);
 using IsReady_t             = void(__cdecl*)();
 using ServerRankRevealAll_t = bool(__cdecl*)(int*);
-using LineThroughSmoke_t    = bool(__cdecl*)(se::Vector, se::Vector, int16_t);
+using LineThroughSmoke_t    = bool(__cdecl*)(Vector, Vector, int16_t);
 
 class SignatureHelper
 {
@@ -33,7 +33,7 @@ public:
 		func(param);
 	}
 
-	static bool LineThroughSmoke(se::Vector loc, se::Vector rem)
+	static bool LineThroughSmoke(Vector loc, Vector rem)
 	{
 		static auto func = reinterpret_cast<LineThroughSmoke_t>(Utils::FindSignature(XorStr("client.dll"), XorStr("55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0")));
 		return func(loc, rem, true);

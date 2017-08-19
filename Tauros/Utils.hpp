@@ -71,21 +71,21 @@ public:
 		FlashWindowEx(&fi);
 	}
 
-    static se::Vector GetEntityBone(se::IClientEntity* pEntity, se::ECSPlayerBones Bone)
+    static Vector GetEntityBone(IClientEntity* pEntity, ECSPlayerBones Bone)
     {
-        se::matrix3x4_t boneMatrix[128];
+        matrix3x4_t boneMatrix[128];
 
-        if(!pEntity->SetupBones(boneMatrix, 128, 0x100, se::Interfaces::Engine()->GetLastTimeStamp()))
-            return se::Vector();
+        if(!pEntity->SetupBones(boneMatrix, 128, 0x100, Interfaces::Engine()->GetLastTimeStamp()))
+            return Vector();
 
 	    auto hitbox = boneMatrix[Bone];
 
-        return se::Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
+        return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
     }
 
-    static bool ScreenTransform(const se::Vector& point, se::Vector& screen)
+    static bool ScreenTransform(const Vector& point, Vector& screen)
     {
-        const auto& w2sMatrix = se::Interfaces::Engine()->WorldToScreenMatrix();
+        const auto& w2sMatrix = Interfaces::Engine()->WorldToScreenMatrix();
         screen.x = w2sMatrix.m[0][0] * point.x + w2sMatrix.m[0][1] * point.y + w2sMatrix.m[0][2] * point.z + w2sMatrix.m[0][3];
         screen.y = w2sMatrix.m[1][0] * point.x + w2sMatrix.m[1][1] * point.y + w2sMatrix.m[1][2] * point.z + w2sMatrix.m[1][3];
         screen.z = 0.0f;
@@ -104,11 +104,11 @@ public:
         return false;
     }
 
-    static bool WorldToScreen(const se::Vector &origin, se::Vector &screen)
+    static bool WorldToScreen(const Vector &origin, Vector &screen)
     {
         if(!ScreenTransform(origin, screen)) {
             int iScreenWidth, iScreenHeight;
-            se::Interfaces::Engine()->GetScreenSize(iScreenWidth, iScreenHeight);
+            Interfaces::Engine()->GetScreenSize(iScreenWidth, iScreenHeight);
 
             screen.x = (iScreenWidth / 2.0f) + (screen.x * iScreenWidth) / 2;
             screen.y = (iScreenHeight / 2.0f) - (screen.y * iScreenHeight) / 2;
@@ -146,7 +146,7 @@ public:
         return NULL;
     }
 
-    static bool Clamp(se::QAngle &angles)
+    static bool Clamp(QAngle &angles)
     {
 	    auto a = angles;
         Normalize(a);
@@ -159,7 +159,7 @@ public:
         return true;
     }
 
-	static void AngleVectors(const se::Vector &angles, se::Vector *forward)
+	static void AngleVectors(const Vector &angles, Vector *forward)
 	{
 		//SinCos(DEG2RAD(angles[1]), &sy, &cy);
 		auto sy = sin(DEG2RAD(angles[1]));
@@ -173,16 +173,16 @@ public:
 		forward->z = -sp;
 	}
 
-	static se::QAngle CalcAngle(se::Vector src, se::Vector dst)
+	static QAngle CalcAngle(Vector src, Vector dst)
 	{
-		se::QAngle angles;
+		QAngle angles;
 		auto delta = src - dst;
 		VectorAngles(delta, angles);
 		Utils::Clamp(delta);
 		return angles;
 	}
 
-	static void VectorAngles(const se::Vector& forward, se::QAngle &angles)
+	static void VectorAngles(const Vector& forward, QAngle &angles)
 	{
 		if (forward[1] == 0.0f && forward[0] == 0.0f)
 		{
@@ -201,7 +201,7 @@ public:
 		angles[2] = 0.0f;
 	}
 private:
-    static void Normalize(se::QAngle& angle)
+    static void Normalize(QAngle& angle)
     {
         while(angle.x > 89.0f) {
             angle.x -= 180.f;
@@ -217,7 +217,7 @@ private:
         }
     }
 
-    static void ClampAngles(se::QAngle &angles)
+    static void ClampAngles(QAngle &angles)
     {
         if(angles.y > 180.0f)
             angles.y = 180.0f;

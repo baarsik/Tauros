@@ -5,7 +5,6 @@ class AutoAccept
 public:
 	static void PlaySound_Post(const char* szFileName)
 	{
-		using namespace se;
 		if (!Options::g_bAutoAcceptEnabled || Interfaces::Engine()->IsInGame())
 			return;
 

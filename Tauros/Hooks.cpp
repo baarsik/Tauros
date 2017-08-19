@@ -81,12 +81,12 @@ namespace Hooks
         NetvarManager::Instance()->Dump(Utils::GetDllDir() + XorStr("netvar_dump.txt"));
 
         g_pD3DDevice9Hook = make_unique<VFTableHook>(SignatureHelper::D3DDevice());
-		g_pClientHook = make_unique<VFTableHook>(se::Interfaces::Client());
-        g_pClientModeHook = make_unique<VFTableHook>(se::Interfaces::ClientMode());
-        g_pMatSurfaceHook = make_unique<VFTableHook>(se::Interfaces::MatSurface());
-	    g_pVGUIPanelHook = make_unique<VFTableHook>(se::Interfaces::VGUIPanel());
-		g_pModelRenderHook = make_unique<VFTableHook>(se::Interfaces::ModelRender());
-		g_pEventManagerHook = make_unique<VFTableHook>(se::Interfaces::EventManager());
+		g_pClientHook = make_unique<VFTableHook>(Interfaces::Client());
+        g_pClientModeHook = make_unique<VFTableHook>(Interfaces::ClientMode());
+        g_pMatSurfaceHook = make_unique<VFTableHook>(Interfaces::MatSurface());
+	    g_pVGUIPanelHook = make_unique<VFTableHook>(Interfaces::VGUIPanel());
+		g_pModelRenderHook = make_unique<VFTableHook>(Interfaces::ModelRender());
+		g_pEventManagerHook = make_unique<VFTableHook>(Interfaces::EventManager());
 
         g_pOldWindowProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(g_hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(Hooked_WndProc)));
 
@@ -135,7 +135,6 @@ namespace Hooks
 
 	HRESULT __stdcall Hooked_EndScene(IDirect3DDevice9* pDevice)
 	{
-		using namespace se;
 		if (!g_bWasInitialized)
 		{
 			GUI_Init(pDevice);
@@ -171,16 +170,16 @@ namespace Hooks
 		return hrOriginalReset;
 	}
 
-    void __fastcall Hooked_PaintTraverse(se::IPanel* pPanel, void * edx, se::VPANEL vguiPanel, bool forceRepaint, bool allowForce)
+    void __fastcall Hooked_PaintTraverse(IPanel* pPanel, void * edx, VPANEL vguiPanel, bool forceRepaint, bool allowForce)
     {
 	    g_fnOriginalPaintTraverse(pPanel, vguiPanel, forceRepaint, allowForce);
-		if (Options::g_bCleanScreenshot && se::Interfaces::Engine()->IsTakingScreenshot())
+		if (Options::g_bCleanScreenshot && Interfaces::Engine()->IsTakingScreenshot())
 			return;
 
 		static unsigned int overlayPanel = 0;
 		if (overlayPanel == 0)
 		{
-			if (!strstr(se::Interfaces::VGUIPanel()->GetName(vguiPanel), XorStr("MatSystemTopPanel")))
+			if (!strstr(Interfaces::VGUIPanel()->GetName(vguiPanel), XorStr("MatSystemTopPanel")))
 				return;
 
 			overlayPanel = vguiPanel;
@@ -189,7 +188,7 @@ namespace Hooks
 		if (overlayPanel != vguiPanel)
 			return;
 
-		if (!se::Interfaces::Engine()->IsInGame())
+		if (!Interfaces::Engine()->IsInGame())
 			return;
 
 		ESP::PaintTraverse_Post();
@@ -233,11 +232,11 @@ namespace Hooks
 
     void __stdcall Hooked_CreateMove(int sequence_number, float input_sample_frametime, bool active, bool& bSendPacket)
     {
-	    g_fnOriginalCreateMove(se::Interfaces::Client(), sequence_number, input_sample_frametime, active);
+	    g_fnOriginalCreateMove(Interfaces::Client(), sequence_number, input_sample_frametime, active);
         auto pLocal = C_CSPlayer::GetLocalPlayer();
 
-		auto cmd = se::Interfaces::Input()->GetUserCmd(sequence_number);
-		auto verified = se::Interfaces::Input()->GetVerifiedUserCmd(sequence_number);
+		auto cmd = Interfaces::Input()->GetUserCmd(sequence_number);
+		auto verified = Interfaces::Input()->GetVerifiedUserCmd(sequence_number);
 
 		if (!cmd || !verified)
 			return;
@@ -274,7 +273,7 @@ namespace Hooks
 		}
 	}
 
-	void __fastcall Hooked_FrameStageNotify(void* ecx, void* edx, se::ClientFrameStage_t stage)
+	void __fastcall Hooked_FrameStageNotify(void* ecx, void* edx, ClientFrameStage_t stage)
     {
 		NoSmoke::FrameStageNotify_Pre(stage);
 		NoFlash::FrameStageNotify_Pre(stage);
@@ -286,39 +285,39 @@ namespace Hooks
 		RCS::FrameStageNotify_Post(stage);
     }
 	
-	void __fastcall Hooked_OverrideView(void* ecx, void* edx, se::CViewSetup* pViewSetup)
+	void __fastcall Hooked_OverrideView(void* ecx, void* edx, CViewSetup* pViewSetup)
 	{
 		RCS::OverrideView_Pre(pViewSetup);
 
 		g_fnOriginalOverrideView(ecx, pViewSetup);
 	}
 
-	void __fastcall Hooked_DrawModelExecute(void* ecx, void* edx, se::IMatRenderContext* ctx, const se::DrawModelState_t &state, const se::ModelRenderInfo_t &pInfo, se::matrix3x4_t *pCustomBoneToWorld)
+	void __fastcall Hooked_DrawModelExecute(void* ecx, void* edx, IMatRenderContext* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 	{
 		g_pModelRenderHook->Unhook(21); // Prevent infinite recursive loop
 		MatHelper.Initialize();
 
-		if (!Options::g_bCleanScreenshot || !se::Interfaces::Engine()->IsTakingScreenshot())
+		if (!Options::g_bCleanScreenshot || !Interfaces::Engine()->IsTakingScreenshot())
 		{
 			Chams::DrawModelExecute_Pre(ecx, ctx, state, pInfo, pCustomBoneToWorld);
 			Hands::DrawModelExecute_Pre(ecx, ctx, state, pInfo, pCustomBoneToWorld);
 		}
 		
 		g_fnOriginalDrawModelExecute(ecx, ctx, state, pInfo, pCustomBoneToWorld);
-		se::Interfaces::ModelRender()->ForcedMaterialOverride(nullptr);
+		Interfaces::ModelRender()->ForcedMaterialOverride(nullptr);
 		g_pModelRenderHook->Hook(21, reinterpret_cast<DrawModelExecute_t>(Hooked_DrawModelExecute));
 	}
 
 	void __stdcall Hooked_OverrideMouseInput(float* x, float* y)
 	{
-		g_fnOriginalOverrideMouseInput(se::Interfaces::ClientMode(), x, y);
+		g_fnOriginalOverrideMouseInput(Interfaces::ClientMode(), x, y);
 
 		AimAssist::OverrideMouseInput_Post(x, y);
 	}
 
 	void __stdcall Hooked_PlaySound(const char* szFileName)
 	{
-		g_fnOriginalPlaySound(se::Interfaces::MatSurface(), szFileName);
+		g_fnOriginalPlaySound(Interfaces::MatSurface(), szFileName);
 
 		AutoAccept::PlaySound_Post(szFileName);
 	}

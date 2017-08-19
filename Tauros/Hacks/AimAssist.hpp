@@ -5,13 +5,12 @@ C_CSPlayer* g_pAimLockTarget = nullptr;
 class AimAssist
 {
 public:
-	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static void CreateMove_Post(C_CSPlayer* pLocal, CUserCmd* pCmd)
 	{
 		g_bIsAttacking = pCmd->buttons & IN_ATTACK;
 	}
 	static void OverrideMouseInput_Post(float* x, float* y)
 	{
-		using namespace se;
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
 		if (!IsEnabled(pLocal))
 		{
@@ -75,12 +74,11 @@ public:
 		*static_cast<float*>(y) = vDelta.y;
 	}
 
-	static bool TraceBone(C_CSPlayer* pLocal, C_CSPlayer* pTarget, se::ECSPlayerBones bone)
+	static bool TraceBone(C_CSPlayer* pLocal, C_CSPlayer* pTarget, ECSPlayerBones bone)
 	{
 		if (Options::g_bAimAssistIgnoreObstacles)
 			return true;
 		
-		using namespace se;
 		trace_t trace;
 		Ray_t ray;
 		CTraceFilter filter;
@@ -109,9 +107,8 @@ public:
 		return true;
 	}
 
-	static se::Vector GetDelta(C_CSPlayer* pLocal, C_CSPlayer* pTarget, se::ECSPlayerBones bone)
+	static Vector GetDelta(C_CSPlayer* pLocal, C_CSPlayer* pTarget, ECSPlayerBones bone)
 	{
-		using namespace se;
 		QAngle qViewAngles;
 		Interfaces::Engine()->GetViewAngles(qViewAngles);
 		if (!Options::g_bRCSEnabled)
@@ -125,9 +122,8 @@ public:
 		return qDelta;
 	}
 
-	static C_CSPlayer* GetClosestPlayer(C_CSPlayer* pLocal, float fov, se::ECSPlayerBones bone)
+	static C_CSPlayer* GetClosestPlayer(C_CSPlayer* pLocal, float fov, ECSPlayerBones bone)
 	{
-		using namespace se;
 		C_CSPlayer* pTarget = nullptr;
 		auto maxFov = fov;
 
@@ -170,7 +166,7 @@ private:
 		return Options::g_bTriggerEnabled && Options::g_bTriggerAimSynergy && (GetAsyncKeyState(Options::KeysID[Options::g_iTriggerKey]) || Options::g_bTriggerAlwaysActive);
 	}
 
-	static float GetFov(const se::QAngle& viewAngle, const se::QAngle& aimAngle)
+	static float GetFov(const QAngle& viewAngle, const QAngle& aimAngle)
 	{
 		auto delta = aimAngle - viewAngle;
 		Utils::Clamp(delta);

@@ -37,7 +37,7 @@ public:
 		m_bInitialized = true;
 	}
 
-	se::IMaterial* GetMaterialById(int id, bool ignorez)
+	IMaterial* GetMaterialById(int id, bool ignorez)
 	{
 		Initialize();
 		return ignorez ? m_vMaterialsIgnoreZ[id] : m_vMaterials[id];
@@ -51,7 +51,7 @@ public:
 private:
 	bool m_bInitialized = false;
 	std::vector<std::string> m_vNames, m_vNamesIgnoreZ;
-	std::vector<se::IMaterial*> m_vMaterials, m_vMaterialsIgnoreZ;
+	std::vector<IMaterial*> m_vMaterials, m_vMaterialsIgnoreZ;
 
 	bool AddMaterial(char* viewName, std::string name, std::string shaderName, std::string baseTexture, bool nofog, bool model, bool nocull, bool halflambert)
 	{
@@ -75,14 +75,14 @@ private:
 		return true;
 	}
 
-	se::IMaterial* CreateMaterial(std::string name, std::string shaderName, std::string baseTexture, bool ignorez, bool nofog, bool model, bool nocull, bool halflambert) const
+	IMaterial* CreateMaterial(std::string name, std::string shaderName, std::string baseTexture, bool ignorez, bool nofog, bool model, bool nocull, bool halflambert) const
 	{
 		auto matName = XorStr("tauros_") + name;
 		auto filePath = Utils::GetGameDir() + XorStr("csgo\\materials\\") + matName + XorStr(".vmt");
 		if (auto file = fopen(filePath.c_str(), "r"))
 		{
 			fclose(file);
-			return se::Interfaces::MaterialSystem()->FindMaterial(matName.c_str(), XorStr(TEXTURE_GROUP_MODEL));
+			return Interfaces::MaterialSystem()->FindMaterial(matName.c_str(), XorStr(TEXTURE_GROUP_MODEL));
 		}
 
 		auto materialData = XorStr("\"") + shaderName + XorStr("\"\n") +
@@ -99,7 +99,7 @@ private:
 		{
 			fputs(materialData.c_str(), file);
 			fclose(file);
-			return se::Interfaces::MaterialSystem()->FindMaterial(matName.c_str(), XorStr(TEXTURE_GROUP_MODEL));
+			return Interfaces::MaterialSystem()->FindMaterial(matName.c_str(), XorStr(TEXTURE_GROUP_MODEL));
 		}
 		return nullptr;
 	}

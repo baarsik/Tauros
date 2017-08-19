@@ -5,9 +5,8 @@ bool g_bRMBDown = false;
 class AutoPistol
 {
 public:
-	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static void CreateMove_Post(C_CSPlayer* pLocal, CUserCmd* pCmd)
 	{
-		using namespace se;
 		if (!Options::g_bAutoPistolEnabled || Options::g_bMainWindowOpen)
 			return;
 

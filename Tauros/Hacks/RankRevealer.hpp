@@ -3,9 +3,8 @@
 class RankRevealer
 {
 public:
-	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static void CreateMove_Post(C_CSPlayer* pLocal, CUserCmd* pCmd)
 	{
-		using namespace se;
 		if (!Options::g_bRankRevealerEnabled || !(pCmd->buttons & IN_SCORE))
 			return;
 

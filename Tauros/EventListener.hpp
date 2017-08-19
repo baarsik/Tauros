@@ -1,25 +1,24 @@
 #pragma once
 
-class EventListener : public se::IGameEventListener2
+class EventListener : public IGameEventListener2
 {
 public:
 	EventListener()
 	{
-		se::Interfaces::EventManager()->AddListener(this, XorStr("player_hurt"), false);
-		se::Interfaces::EventManager()->AddListener(this, XorStr("player_spawned"), false);
-		se::Interfaces::EventManager()->AddListener(this, XorStr("round_start"), false);
-		se::Interfaces::EventManager()->AddListener(this, XorStr("bomb_planted"), false);
-		se::Interfaces::EventManager()->AddListener(this, XorStr("bomb_defused"), false);
-		se::Interfaces::EventManager()->AddListener(this, XorStr("bomb_exploded"), false);
+		Interfaces::EventManager()->AddListener(this, XorStr("player_hurt"), false);
+		Interfaces::EventManager()->AddListener(this, XorStr("player_spawned"), false);
+		Interfaces::EventManager()->AddListener(this, XorStr("round_start"), false);
+		Interfaces::EventManager()->AddListener(this, XorStr("bomb_planted"), false);
+		Interfaces::EventManager()->AddListener(this, XorStr("bomb_defused"), false);
+		Interfaces::EventManager()->AddListener(this, XorStr("bomb_exploded"), false);
 	}
 	~EventListener()
 	{
-		se::Interfaces::EventManager()->RemoveListener(this);
+		Interfaces::EventManager()->RemoveListener(this);
 	}
 
-	virtual void FireGameEvent(se::IGameEvent* event)
+	virtual void FireGameEvent(IGameEvent* event)
 	{
-		using namespace se;
 		if (!strcmp(event->GetName(), XorStr("player_hurt")))
 		{
 			auto pVictim = static_cast<C_CSPlayer*>(Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetPlayerForUserID(event->GetInt(XorStr("userid")))));

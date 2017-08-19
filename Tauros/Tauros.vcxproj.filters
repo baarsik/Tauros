@@ -69,20 +69,20 @@
     <ClCompile Include="DrawManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceEngine\Convar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SourceEngine\UtlString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceEngine\characterset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SourceEngine\UtlBuffer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceEngine\Convar.cpp">
+      <Filter>SourceEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceEngine\characterset.cpp">
+      <Filter>SourceEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,15 +209,6 @@
     <ClInclude Include="DrawManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceEngine\IConVar.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceEngine\ICvar.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceEngine\Convar.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SourceEngine\UtlMemory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -225,9 +216,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SourceEngine\UtlVector.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceEngine\characterset.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SourceEngine\UtlBuffer.hpp">
@@ -301,6 +289,21 @@
     </ClInclude>
     <ClInclude Include="Hacks\RankRevealer.hpp">
       <Filter>Hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceEngine\ICvar.hpp">
+      <Filter>SourceEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceEngine\IConVar.hpp">
+      <Filter>SourceEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceEngine\Convar.hpp">
+      <Filter>SourceEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceEngine\characterset.hpp">
+      <Filter>SourceEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceEngine\CCSWeaponData.hpp">
+      <Filter>SourceEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,12 +3,12 @@
 class NoFlash
 {
 public:
-	static void FrameStageNotify_Pre(se::ClientFrameStage_t stage)
+	static void FrameStageNotify_Pre(ClientFrameStage_t stage)
 	{
-		if (!se::Interfaces::Engine()->IsInGame())
+		if (!Interfaces::Engine()->IsInGame())
 			return;
 
-		if (stage != se::ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
+		if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 			return;
 
 		auto pLocal = C_CSPlayer::GetLocalPlayer();
@@ -32,9 +32,8 @@ std::vector<const char*> smoke_materials = {
 class NoSmoke
 {
 public:
-	static void FrameStageNotify_Pre(se::ClientFrameStage_t stage)
+	static void FrameStageNotify_Pre(ClientFrameStage_t stage)
 	{
-		using namespace se;
 		if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END)
 			return;
 
@@ -49,9 +48,8 @@ public:
 class Hands
 {
 public:
-	static void DrawModelExecute_Pre(void* ecx, se::IMatRenderContext* ctx, const se::DrawModelState_t &state, const se::ModelRenderInfo_t &pInfo, se::matrix3x4_t *pCustomBoneToWorld)
+	static void DrawModelExecute_Pre(void* ecx, IMatRenderContext* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 	{
-		using namespace se;
 		if (Options::g_iHandsDisplay == 0 || !pInfo.pModel)
 			return;
 		

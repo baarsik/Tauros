@@ -15,9 +15,8 @@ std::unordered_map<int, EconomyItemCfg> g_SkinChangerCfg;
 class SkinChanger
 {
 public:
-	static void FrameStageNotify_Pre(se::ClientFrameStage_t stage)
+	static void FrameStageNotify_Pre(ClientFrameStage_t stage)
 	{
-		using namespace se;
 		if (!IsEnabled())
 			return;
 
@@ -37,7 +36,6 @@ public:
 	}
 
 	static bool ApplySkin(C_BaseCombatWeapon* pWeapon) {
-		using namespace se;
 		if (!pWeapon)
 			return false;
 
@@ -62,8 +60,6 @@ public:
 
 	static void InitSkins()
 	{
-		using namespace se;
-
 		g_SkinChangerCfg[WEAPON_AWP].nFallbackPaintKit = 344;           // Dragon Lore
 		g_SkinChangerCfg[WEAPON_AK47].nFallbackPaintKit = 302;          // Vulkan
 		g_SkinChangerCfg[WEAPON_M4A1].nFallbackPaintKit = 309;          // Howl

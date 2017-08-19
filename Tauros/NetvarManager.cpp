@@ -6,7 +6,6 @@
 #include "XorStr.hpp"
 
 using namespace std;
-using namespace se;
 
 //------------------------------------------------------------
 // Classes to help the parsing of the netvars
@@ -112,7 +111,7 @@ void NetvarManager::Dump(const std::string& file)
 //------------------------------------------------------------
 // Internal methods below. This is where the real work is done
 //------------------------------------------------------------
-unique_ptr<NetvarTable> NetvarManager::InternalLoadTable(se::RecvTable* pRecvTable, uint32_t offset)
+unique_ptr<NetvarTable> NetvarManager::InternalLoadTable(RecvTable* pRecvTable, uint32_t offset)
 {
     auto pTable = make_unique<NetvarTable>();
     pTable->m_uOffset = offset;
@@ -127,7 +126,7 @@ unique_ptr<NetvarTable> NetvarManager::InternalLoadTable(se::RecvTable* pRecvTab
         if(strcmp(pProp->m_pVarName, XorStr("baseclass")) == 0) continue;
 
         //If this prop is a table
-        if(pProp->m_RecvType == se::SendPropType::DPT_DataTable &&  //If it is a table AND
+        if(pProp->m_RecvType == SendPropType::DPT_DataTable &&  //If it is a table AND
             pProp->m_pDataTable != nullptr &&                                //The DataTable isnt null AND
             pProp->m_pDataTable->m_pNetTableName[0] == 'D') {                //The Table name starts with D (this is because there are some shitty nested 
                                                                              //tables that we want to skip, and those dont start with D)

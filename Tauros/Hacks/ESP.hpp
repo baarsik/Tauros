@@ -8,7 +8,6 @@ class ESP
 public:
 	static void PaintTraverse_Post()
 	{
-		using namespace se;
 		if (!Options::g_bESPEnabled)
 			return;
 
@@ -46,9 +45,8 @@ public:
 	}
 
 private:
-	static void RenderHealth(C_CSPlayer* pLocal, C_CSPlayer* pTarget, se::Vector vScreenHead, se::Vector vScreenOrigin)
+	static void RenderHealth(C_CSPlayer* pLocal, C_CSPlayer* pTarget, Vector vScreenHead, Vector vScreenOrigin)
 	{
-		using namespace se;
 		if (Options::g_iESPShowHealth == 0)
 			return;
 
@@ -79,9 +77,8 @@ private:
 		Interfaces::MatSurface()->DrawFilledRect(x - 1, y, x + int(width * healthNormalized) + 1, y + height);
 	}
 
-	static void RenderBoxes(C_CSPlayer* pLocal, C_CSPlayer* pTarget, se::Vector vScreenHead, se::Vector vScreenOrigin)
+	static void RenderBoxes(C_CSPlayer* pLocal, C_CSPlayer* pTarget, Vector vScreenHead, Vector vScreenOrigin)
 	{
-		using namespace se;
 		if (Options::g_iESPShowBoxes == 0)
 			return;
 
@@ -101,9 +98,8 @@ private:
 		DrawOutlinedRect(int(vScreenHead.x - width / 2), int(vScreenHead.y), int(width), int(height), lineColor);
 	}
 
-	static void RenderTop(C_CSPlayer* pLocal, C_CSPlayer* pTarget, se::Vector vScreenHead)
+	static void RenderTop(C_CSPlayer* pLocal, C_CSPlayer* pTarget, Vector vScreenHead)
 	{
-		using namespace se;
 		if (Options::g_iESPShowNames == 0)
 			return;
 
@@ -122,9 +118,8 @@ private:
 		DrawString(int(vScreenHead.x), y, 255, 255, 255, 255, true, pInfo.szName, true);
 	}
 	
-	static void RenderBottom(C_CSPlayer* pLocal, C_CSPlayer* pTarget, se::Vector vScreenOrigin)
+	static void RenderBottom(C_CSPlayer* pLocal, C_CSPlayer* pTarget, Vector vScreenOrigin)
 	{
-		using namespace se;
 		if (Options::g_iESPShowDistance == 0 && Options::g_iESPShowWeapon == 0)
 			return;
 
@@ -151,7 +146,6 @@ private:
 
 	static void RenderBones(C_CSPlayer* pLocal, C_CSPlayer* pTarget)
 	{
-		using namespace se;
 		if (Options::g_iESPShowBones == 0)
 			return;
 
@@ -193,9 +187,8 @@ private:
 	}
 
 	// Helpers
-	static void DrawOutlinedRect(int x, int y, int width, int height, se::Color color)
+	static void DrawOutlinedRect(int x, int y, int width, int height, Color color)
 	{
-		using namespace se;
 		auto x2 = x + width;
 		auto y2 = y + height;
 		Interfaces::MatSurface()->DrawSetColor(color);
@@ -214,25 +207,25 @@ private:
 		wchar_t szString[64];
 		MultiByteToWideChar(CP_UTF8, 0, pszText, -1, szString, 64);
 
-		static se::HFont font;
+		static HFont font;
 		static auto fontInitialized = false;
 		if (!fontInitialized)
 		{
-			se::Interfaces::MatSurface()->SetFontGlyphSet(
-				font = se::Interfaces::MatSurface()->CreateFont(),
+			Interfaces::MatSurface()->SetFontGlyphSet(
+				font = Interfaces::MatSurface()->CreateFont(),
 				XorStr("Tahoma"), 14,
 				FW_MEDIUM, 0, 0,
-				static_cast<int>(se::FontFlags::FONTFLAG_OUTLINE)
+				static_cast<int>(FontFlags::FONTFLAG_OUTLINE)
 			);
 			fontInitialized = true;
 		}
 
 		int iWidth, iHeight;
-		se::Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
-		se::Interfaces::MatSurface()->DrawSetTextFont(font);
-		se::Interfaces::MatSurface()->DrawSetTextPos(x - (bCenter ? iWidth / 2 : 0), y - (bVerticalAlignTop ? iHeight : 0));
-		se::Interfaces::MatSurface()->DrawSetTextColor(se::Color(r, g, b, a));
-		se::Interfaces::MatSurface()->DrawPrintText(szString, wcslen(szString));
+		Interfaces::MatSurface()->GetTextSize(font, szString, iWidth, iHeight);
+		Interfaces::MatSurface()->DrawSetTextFont(font);
+		Interfaces::MatSurface()->DrawSetTextPos(x - (bCenter ? iWidth / 2 : 0), y - (bVerticalAlignTop ? iHeight : 0));
+		Interfaces::MatSurface()->DrawSetTextColor(Color(r, g, b, a));
+		Interfaces::MatSurface()->DrawPrintText(szString, wcslen(szString));
 		return FontSize { iWidth, iHeight };
 	}
 };

@@ -3,13 +3,13 @@
 class Bhop
 {
 public:
-	static void CreateMove_Post(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static void CreateMove_Post(C_CSPlayer* pLocal, CUserCmd* pCmd)
 	{
 		DoStrafe(pLocal, pCmd);
 		DoBhop(pLocal, pCmd);
 	}
 private:
-	static void DoBhop(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static void DoBhop(C_CSPlayer* pLocal, CUserCmd* pCmd)
 	{
 		if (!Options::g_bBHopEnabled || !pLocal->IsAlive())
 			return;
@@ -24,7 +24,7 @@ private:
 		}
 		else if (pCmd->buttons & IN_JUMP)
 		{
-			if (pLocal->GetFlags() & static_cast<int>(se::EntityFlags::FL_ONGROUND))
+			if (pLocal->GetFlags() & static_cast<int>(EntityFlags::FL_ONGROUND))
 			{
 				lastJumped = true;
 				shouldFake = true;
@@ -42,7 +42,7 @@ private:
 		}
 	}
 
-	static void DoStrafe(C_CSPlayer* pLocal, se::CUserCmd* pCmd)
+	static void DoStrafe(C_CSPlayer* pLocal, CUserCmd* pCmd)
 	{
 		if (!Options::g_bAutoStrafeEnabled)
 			return;
@@ -50,7 +50,7 @@ private:
 		if (pCmd->mousedx <= 1 && pCmd->mousedx >= -1)
 			return;
 
-		if (pLocal->GetFlags() & static_cast<int>(se::EntityFlags::FL_ONGROUND))
+		if (pLocal->GetFlags() & static_cast<int>(EntityFlags::FL_ONGROUND))
 			return;
 		
 		if (pCmd->buttons & IN_JUMP)
