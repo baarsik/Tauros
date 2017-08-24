@@ -1,9 +1,0 @@
-﻿{
-  "name": "node-licenser",
-  "version": "0.0.0",
-  "description": "NodeLicenser",
-  "main": "server.js",
-  "author": {
-    "name": "Барс"
-  }
-}
