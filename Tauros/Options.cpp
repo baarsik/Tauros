@@ -19,10 +19,10 @@ namespace Options
 	bool g_bAimAssistLockTarget = true;
 	bool g_bAimAssistIgnoreObstacles = false;
 	bool g_bAimAssistAutoShoot = false;
-	bool g_bAimAssistLockMouse = true;
+	bool g_bAimAssistLockMouse = false;
 	bool g_bAimAssistIgnoreSmoke = false;
 	float g_fAimAssistFov = 1.55f;
-	float g_fAimAssistSmooth = 0.195f;
+	float g_fAimAssistSmooth = 0.185f;
 	float g_fAimAssistVerticalSmoothMultiplier = 1.75f;
 
 	// Visuals (1)
